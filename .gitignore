@@ -1,0 +1,14 @@
+node_modules
+build/
+.DS_Store
+form_models
+*.log
+.vscode/*
+static/locales/*
+coverage/
+.idea/
+.eslintcache
+.next
+.jest-cache
+harness
+NOTES.md

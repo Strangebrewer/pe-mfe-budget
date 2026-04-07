@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "jsx": "react-jsx",
+    "preserveSymlinks": false,
+    "paths": {
+      "axios": ["./node_modules/axios"],
+      "react": ["./node_modules/react"],
+      "react-dom": ["./node_modules/react-dom"]
+    }
+  },
+  "include": ["src/**/*", "webpack.config.ts"],
+  "exclude": ["node_modules"]
+}
