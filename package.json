@@ -34,7 +34,7 @@
     "webpack-merge": "6.0.1"
   },
   "dependencies": {
-    "@bka-stuff/pe-mfe-utils": "^0.1.0",
+    "@bka-stuff/pe-mfe-utils": "github:Strangebrewer/pe-mfe-utils#main",
     "@tanstack/react-query": "^5.90.21",
     "axios": "1.13.6",
     "jwt-decode": "^4.0.0",

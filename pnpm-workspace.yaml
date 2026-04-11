@@ -1,0 +1,2 @@
+overrides:
+  '@bka-stuff/pe-mfe-utils': link:../pe-mfe-utils
