@@ -70,7 +70,7 @@ jobs:
           service_account: ${{ env.SERVICE_ACCOUNT }}
 
       - name: Deploy to Firebase Hosting (dev channel)
-        run: npx firebase-tools hosting:channel:deploy dev --project ${{ env.PROJECT_ID }}
+        run: npx firebase-tools deploy --only hosting --config firebase.dev.json --project ${{ env.PROJECT_ID }}
 
   deploy-prod:
     needs: build-and-test
