@@ -10,13 +10,16 @@ importers:
     dependencies:
       '@bka-stuff/pe-mfe-utils':
         specifier: github:Strangebrewer/pe-mfe-utils#main
-        version: https://codeload.github.com/Strangebrewer/pe-mfe-utils/tar.gz/0b55593dbfe3f5c5c5d4be3eb31b2ee9397f8e7b(@types/react@18.3.27)(axios@1.13.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: https://codeload.github.com/Strangebrewer/pe-mfe-utils/tar.gz/4ad43e3e8527ad099477e735280ee2554df7dc19(@types/react@18.3.27)(axios@1.13.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-query':
         specifier: ^5.90.21
         version: 5.99.0(react@18.3.1)
       axios:
         specifier: 1.13.6
         version: 1.13.6
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
       jwt-decode:
         specifier: ^4.0.0
         version: 4.0.0
@@ -108,8 +111,8 @@ packages:
     resolution: {integrity: sha512-qSs4ifwzKJSV39ucNjsvc6WVHs6b7S03sOh2OcHF9UHfVPqWWALUsNUVzhSBiItjRZoLHx7nIarVjqKVusUZ1Q==}
     engines: {node: '>=6.9.0'}
 
-  '@bka-stuff/pe-mfe-utils@https://codeload.github.com/Strangebrewer/pe-mfe-utils/tar.gz/0b55593dbfe3f5c5c5d4be3eb31b2ee9397f8e7b':
-    resolution: {tarball: https://codeload.github.com/Strangebrewer/pe-mfe-utils/tar.gz/0b55593dbfe3f5c5c5d4be3eb31b2ee9397f8e7b}
+  '@bka-stuff/pe-mfe-utils@https://codeload.github.com/Strangebrewer/pe-mfe-utils/tar.gz/4ad43e3e8527ad099477e735280ee2554df7dc19':
+    resolution: {tarball: https://codeload.github.com/Strangebrewer/pe-mfe-utils/tar.gz/4ad43e3e8527ad099477e735280ee2554df7dc19}
     version: 0.1.0
     peerDependencies:
       axios: 1.13.6
@@ -805,6 +808,9 @@ packages:
 
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
+
+  date-fns@4.1.0:
+    resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
 
   debounce@1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
@@ -2123,7 +2129,7 @@ snapshots:
 
   '@babel/helper-validator-identifier@7.28.5': {}
 
-  '@bka-stuff/pe-mfe-utils@https://codeload.github.com/Strangebrewer/pe-mfe-utils/tar.gz/0b55593dbfe3f5c5c5d4be3eb31b2ee9397f8e7b(@types/react@18.3.27)(axios@1.13.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@bka-stuff/pe-mfe-utils@https://codeload.github.com/Strangebrewer/pe-mfe-utils/tar.gz/4ad43e3e8527ad099477e735280ee2554df7dc19(@types/react@18.3.27)(axios@1.13.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       axios: 1.13.6
       jwt-decode: 4.0.0
@@ -2855,6 +2861,8 @@ snapshots:
   cssesc@3.0.0: {}
 
   csstype@3.2.3: {}
+
+  date-fns@4.1.0: {}
 
   debounce@1.2.1: {}
 

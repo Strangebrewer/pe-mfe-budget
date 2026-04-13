@@ -1,13 +1,10 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './index.css';
+import Bills from './pages/Bills';
 
 function Accounts() {
   return <div><h1>Accounts</h1></div>;
-}
-
-function Bills() {
-  return <div><h1>Bills</h1></div>;
 }
 
 function Transactions() {
@@ -21,8 +18,8 @@ function NotFound() {
 const App: React.FC = () => {
   return (
     <Routes>
+      <Route index element={<Bills />} />
       <Route path="accounts" element={<Accounts />} />
-      <Route path="bills" element={<Bills />} />
       <Route path="transactions" element={<Transactions />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
