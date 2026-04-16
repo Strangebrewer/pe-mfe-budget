@@ -13,5 +13,5 @@ coverage/
 harness
 NOTES.md
 dist/
-.env.local
 .env
+.env.local
