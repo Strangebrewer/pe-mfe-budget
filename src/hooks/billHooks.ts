@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { billApi } from '../api';
+import { useTransferStaleStore } from '../state/useTransferStale';
 
 export const useGetBills = (month: string) => {
   return useQuery({
@@ -13,18 +14,23 @@ export const useGetBills = (month: string) => {
 
 export const useCreateBill = () => {
   const queryClient = useQueryClient();
+  const { markTransferStale } = useTransferStaleStore();
   return useMutation({
     mutationKey: ['create-bill'],
     mutationFn: async (bill: any) => {
       const response = await billApi.create(bill);
       return response.data;
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['get-bills'] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['get-bills'] });
+      markTransferStale();
+    },
   });
 };
 
 export const usePayBill = () => {
   const queryClient = useQueryClient();
+  const { markTransferStale } = useTransferStaleStore();
   return useMutation({
     mutationFn: async (data: Record<string, any>) => {
       const { billId, ...rest } = data;
@@ -34,6 +40,7 @@ export const usePayBill = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['get-bills'] });
       queryClient.invalidateQueries({ queryKey: ['get-transactions'] });
+      markTransferStale();
     },
   });
 };

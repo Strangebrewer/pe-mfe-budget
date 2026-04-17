@@ -23,18 +23,14 @@ const BillRow: FC<BillRowProps> = ({ bill, rowIndex, month, year, registerRef, o
     return transactions.find(t => t.billMonth === getBillMonthForColumn(month, year, colIndex));
   }
 
-  const [values, setValues] = useState<string[]>([
-    toDisplayAmount(getTransactionForColumn(0)?.amount),
-    toDisplayAmount(getTransactionForColumn(1)?.amount),
-    toDisplayAmount(getTransactionForColumn(2)?.amount),
-  ]);
+  function getColumnValues() {
+    return [0, 1, 2].map(i => toDisplayAmount(getTransactionForColumn(i)?.amount));
+  }
+
+  const [values, setValues] = useState<string[]>(getColumnValues);
 
   useEffect(() => {
-    setValues([
-      toDisplayAmount(getTransactionForColumn(0)?.amount),
-      toDisplayAmount(getTransactionForColumn(1)?.amount),
-      toDisplayAmount(getTransactionForColumn(2)?.amount),
-    ]);
+    setValues(getColumnValues());
   }, [bill]);
 
   function handleChange(colIndex: number, value: string) {
@@ -88,7 +84,7 @@ const BillRow: FC<BillRowProps> = ({ bill, rowIndex, month, year, registerRef, o
   }
 
   return (
-    <div className="tw:w-[850px] tw:flex">
+    <div className="tw:w-[540px] tw:flex">
       <div className="tw:w-[300px] tw:border tw:pl-[4px]">{bill.name}</div>
       {[0, 1, 2].map(colIndex => (
         <input

@@ -21,3 +21,21 @@ export function toStoredAmount(value: string): number {
   }
   return parseInt(value, 10) * 100;
 }
+
+export function sumByMonth(transactions: any[], billMonth: string): number {
+  return transactions
+    .filter(t => t.date?.substring(0, 7) === billMonth)
+    .reduce((sum, t) => sum + t.amount, 0);
+}
+
+export function calculateTransfer(
+  mineIncome: number,
+  hersIncome: number,
+  mineExpenses: number,
+  hersExpenses: number,
+): number {
+  const mineNet = mineIncome - mineExpenses;
+  const hersNet = hersIncome - hersExpenses;
+  const combined = mineNet + hersNet;
+  return mineNet - combined / 2;
+}

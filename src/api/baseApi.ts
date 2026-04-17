@@ -12,6 +12,7 @@ export default class BaseApi {
 
   get(query?: Record<string, any>) {
     const searchParams = new URLSearchParams(query).toString();
+    console.log('searchParams:::', searchParams);
     return this.axiosWithAuth.get(`${this.endpoint}${query ? '?' + searchParams : ''}`);
   }
 
