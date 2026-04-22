@@ -1,36 +1,32 @@
-import { FC, useRef } from 'react';
+import { FC } from 'react';
 import { toDisplayAmount } from '../../utils/billUtils';
 import CategoryTransactionRow from './CategoryTransactionRow';
 
 type Props = {
-  billMonth: string;
+  month: string;
   transactions: any[];
   categoryId: string;
   owner: string;
   monthLabel: string;
+  registerDescRef: (rowIdx: number, el: HTMLInputElement | null) => void;
+  focusDesc: (rowIdx: number) => void;
+  onUp: (rowIdx: number) => void;
+  onLeft: (rowIdx: number) => void;
+  onRight: (rowIdx: number) => void;
 };
 
-const CategoryMonthColumn: FC<Props> = ({ billMonth, transactions, categoryId, owner, monthLabel }) => {
-  const descRefs = useRef<(HTMLInputElement | null)[]>([]);
-
-  function registerDescRef(rowIdx: number) {
-    return (el: HTMLInputElement | null) => {
-      descRefs.current[rowIdx] = el;
-    };
-  }
-
-  function focusNextDesc(rowIdx: number) {
-    descRefs.current[rowIdx + 1]?.focus();
-  }
-
+const CategoryMonthColumn: FC<Props> = ({
+  month, transactions, categoryId, owner, monthLabel,
+  registerDescRef, focusDesc, onUp, onLeft, onRight,
+}) => {
   const total = transactions.reduce((sum, t) => sum + t.amount, 0);
   const newRowIdx = transactions.length;
 
   return (
-    <div className="tw:w-[240px]">
+    <div className="tw:w-[180px]">
       <div className="tw:flex tw:border-b tw:border-gray-400 tw:pb-[2px] tw:mb-[2px]">
-        <div className="tw:w-[160px] tw:pl-[4px] tw:font-semibold tw:text-sm">{monthLabel}</div>
-        <div className="tw:w-[80px] tw:pr-[4px] tw:text-right tw:font-semibold tw:text-sm">
+        <div className="tw:w-[120px] tw:pl-[12px] tw:font-semibold tw:text-sm">{monthLabel}</div>
+        <div className="tw:w-[60px] tw:pr-[4px] tw:text-right tw:font-semibold tw:text-sm">
           {total ? toDisplayAmount(total) : ''}
         </div>
       </div>
@@ -40,18 +36,24 @@ const CategoryMonthColumn: FC<Props> = ({ billMonth, transactions, categoryId, o
           transaction={t}
           categoryId={categoryId}
           owner={owner}
-          billMonth={billMonth}
-          descRef={registerDescRef(rowIdx)}
-          onEnterAmount={() => focusNextDesc(rowIdx)}
+          month={month}
+          descRef={el => registerDescRef(rowIdx, el)}
+          onEnterAmount={() => focusDesc(rowIdx + 1)}
+          onUp={() => onUp(rowIdx)}
+          onLeft={() => onLeft(rowIdx)}
+          onRight={() => onRight(rowIdx)}
         />
       ))}
       <CategoryTransactionRow
         key="new-row"
         categoryId={categoryId}
         owner={owner}
-        billMonth={billMonth}
-        descRef={registerDescRef(newRowIdx)}
-        onEnterAmount={() => focusNextDesc(newRowIdx)}
+        month={month}
+        descRef={el => registerDescRef(newRowIdx, el)}
+        onEnterAmount={() => focusDesc(newRowIdx + 1)}
+        onUp={() => onUp(newRowIdx)}
+        onLeft={() => onLeft(newRowIdx)}
+        onRight={() => onRight(newRowIdx)}
       />
     </div>
   );

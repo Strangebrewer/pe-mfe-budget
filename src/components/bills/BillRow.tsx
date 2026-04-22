@@ -9,18 +9,21 @@ type BillRowProps = {
   month: number;
   year: number;
   registerRef: (rowIndex: number, colIndex: number, el: HTMLInputElement | null) => void;
-  onEnter: (rowIndex: number, colIndex: number) => void;
+  onUp: (rowIndex: number, colIndex: number) => void;
+  onDown: (rowIndex: number, colIndex: number) => void;
+  onLeft: (rowIndex: number, colIndex: number) => void;
+  onRight: (rowIndex: number, colIndex: number) => void;
 }
 
-const BillRow: FC<BillRowProps> = ({ bill, rowIndex, month, year, registerRef, onEnter }) => {
+const BillRow: FC<BillRowProps> = ({ bill, rowIndex, month, year, registerRef, onUp, onDown, onLeft, onRight }) => {
   const transactions: any[] = bill?.transactions ?? [];
   const { mutate: payBill } = usePayBill();
   const { mutate: updateTransaction } = useUpdateTransaction();
   const { mutate: deleteTransaction } = useDeleteTransaction();
-  const wasEnterFired = useRef(false);
+  const wasKeyHandled = useRef(false);
 
   function getTransactionForColumn(colIndex: number) {
-    return transactions.find(t => t.billMonth === getBillMonthForColumn(month, year, colIndex));
+    return transactions.find(t => t.month === getBillMonthForColumn(month, year, colIndex));
   }
 
   function getColumnValues() {
@@ -57,27 +60,34 @@ const BillRow: FC<BillRowProps> = ({ bill, rowIndex, month, year, registerRef, o
       if (amount === original) return;
       updateTransaction({ ...transaction, amount });
     } else {
-      const today = new Date().toISOString().split('T')[0];
       payBill({
         billId: bill.id,
         amount,
-        billMonth: getBillMonthForColumn(month, year, colIndex),
-        date: today,
+        month: getBillMonthForColumn(month, year, colIndex),
       });
     }
   }
 
   function handleKeyDown(colIndex: number, e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === 'Enter') {
-      wasEnterFired.current = true;
+    const navKeys: Record<string, () => void> = {
+      Enter:      () => onDown(rowIndex, colIndex),
+      ArrowDown:  () => onDown(rowIndex, colIndex),
+      ArrowUp:    () => onUp(rowIndex, colIndex),
+      ArrowLeft:  () => onLeft(rowIndex, colIndex),
+      ArrowRight: () => onRight(rowIndex, colIndex),
+    };
+
+    if (navKeys[e.key]) {
+      e.preventDefault();
+      wasKeyHandled.current = true;
       save(colIndex);
-      onEnter(rowIndex, colIndex);
+      navKeys[e.key]();
     }
   }
 
   function handleBlur(colIndex: number) {
-    if (wasEnterFired.current) {
-      wasEnterFired.current = false;
+    if (wasKeyHandled.current) {
+      wasKeyHandled.current = false;
       return;
     }
     save(colIndex);

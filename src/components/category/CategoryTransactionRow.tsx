@@ -6,18 +6,24 @@ type Props = {
   transaction?: any;
   categoryId: string;
   owner: string;
-  billMonth: string;
+  month: string;
   descRef: (el: HTMLInputElement | null) => void;
   onEnterAmount: () => void;
+  onUp: () => void;
+  onLeft: () => void;
+  onRight: () => void;
 };
 
 const CategoryTransactionRow: FC<Props> = ({
   transaction,
   categoryId,
   owner,
-  billMonth,
+  month,
   descRef,
   onEnterAmount,
+  onUp,
+  onLeft,
+  onRight,
 }) => {
   const [desc, setDesc] = useState(transaction?.description ?? '');
   const [amount, setAmount] = useState(toDisplayAmount(transaction?.amount));
@@ -26,6 +32,7 @@ const CategoryTransactionRow: FC<Props> = ({
   const innerDescRef = useRef<HTMLInputElement>(null);
   const amountInputRef = useRef<HTMLInputElement>(null);
   const wasEnterFired = useRef(false);
+  const isNavigatingAway = useRef(false);
 
   const { mutate: createTransaction } = useCreateTransaction();
   const { mutate: updateTransaction } = useUpdateTransaction();
@@ -77,13 +84,17 @@ const CategoryTransactionRow: FC<Props> = ({
         amount: storedAmount,
         owner,
         categoryId,
-        date: `${billMonth}-01`,
+        month,
+        type: 'debit',
       });
       setDesc('');
       setAmount('');
-      requestAnimationFrame(() => {
-        innerDescRef.current?.focus();
-      });
+      if (!isNavigatingAway.current) {
+        requestAnimationFrame(() => {
+          innerDescRef.current?.focus();
+        });
+      }
+      isNavigatingAway.current = false;
     }
   }
 
@@ -91,14 +102,52 @@ const CategoryTransactionRow: FC<Props> = ({
     if (e.key === 'Enter') {
       e.preventDefault();
       amountInputRef.current?.focus();
+      return;
+    }
+
+    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+
+    e.preventDefault();
+
+    if (desc.trim() && !amount.trim()) {
+      amountInputRef.current?.focus();
+      return;
+    }
+
+    if (e.key === 'ArrowRight') {
+      amountInputRef.current?.focus();
+    } else if (e.key === 'ArrowDown') {
+      onEnterAmount();
+    } else if (e.key === 'ArrowUp') {
+      onUp();
+    } else if (e.key === 'ArrowLeft') {
+      onLeft();
     }
   }
 
   function handleAmountKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' || e.key === 'ArrowDown') {
       e.preventDefault();
       wasEnterFired.current = true;
       commit(true);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      wasEnterFired.current = true;
+      isNavigatingAway.current = true;
+      commit(false);
+      onUp();
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      wasEnterFired.current = true;
+      isNavigatingAway.current = true;
+      commit(false);
+      innerDescRef.current?.focus();
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      wasEnterFired.current = true;
+      isNavigatingAway.current = true;
+      commit(false);
+      onRight();
     }
   }
 
@@ -114,14 +163,14 @@ const CategoryTransactionRow: FC<Props> = ({
     <div className="tw:flex">
       <input
         ref={handleDescRef}
-        className="tw:w-[160px] tw:border tw:pl-[4px] tw:text-sm"
+        className="tw:w-[120px] tw:border tw:pl-[4px] tw:text-sm"
         value={desc}
         onChange={e => setDesc(e.target.value)}
         onKeyDown={handleDescKeyDown}
       />
       <input
         ref={amountInputRef}
-        className={`tw:w-[80px] tw:border tw:pr-[4px] tw:text-right tw:text-sm${amountError ? ' tw:outline tw:outline-2 tw:outline-red-500' : ''}`}
+        className={`tw:w-[60px] tw:border tw:pr-[4px] tw:text-right tw:text-sm${amountError ? ' tw:outline tw:outline-2 tw:outline-red-500' : ''}`}
         value={amount}
         onChange={e => {
           setAmount(e.target.value);

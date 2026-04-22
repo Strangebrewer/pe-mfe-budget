@@ -19,11 +19,14 @@ type OwnerSectionProps = {
   year: number;
   rowOffset: number;
   registerRef: (rowIndex: number, colIndex: number, el: HTMLInputElement | null) => void;
-  onEnter: (rowIndex: number, colIndex: number) => void;
+  onUp: (rowIndex: number, colIndex: number) => void;
+  onDown: (rowIndex: number, colIndex: number) => void;
+  onLeft: (rowIndex: number, colIndex: number) => void;
+  onRight: (rowIndex: number, colIndex: number) => void;
 }
 
 const OwnerSection: FC<OwnerSectionProps> = ({
-  owner, bills, categoryTransactions, income, month, year, rowOffset, registerRef, onEnter,
+  owner, bills, categoryTransactions, income, month, year, rowOffset, registerRef, onUp, onDown, onLeft, onRight,
 }) => {
   const allCategoryTransactions = SHARED_CATEGORY_NAMES.flatMap(name => categoryTransactions[name]);
 
@@ -41,7 +44,10 @@ const OwnerSection: FC<OwnerSectionProps> = ({
             month={month}
             year={year}
             registerRef={registerRef}
-            onEnter={onEnter}
+            onUp={onUp}
+            onDown={onDown}
+            onLeft={onLeft}
+            onRight={onRight}
           />
         ))}
         {SHARED_CATEGORY_NAMES.map(name => (

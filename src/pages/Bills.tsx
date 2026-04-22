@@ -9,6 +9,7 @@ import { useGetCategories } from "../hooks/categoryHooks";
 import { calculateTransfer, getBillMonthForColumn, sumByMonth } from "../utils/billUtils";
 import { useTransferStaleStore } from "../state/useTransferStale";
 import { CategoryName, SHARED_CATEGORY_NAMES } from "../config";
+import IncomeBlock from "../components/bills/IncomeBlock";
 
 const TRANSACTION_COL_COUNT = 3;
 
@@ -25,6 +26,8 @@ const Bills: FC = () => {
     [categories]
   );
 
+  console.log('billMonth:::', billMonth);
+
   const { data: transactions } = useGetTransactions({
     month: billMonth,
     category: sharedCategoryIds?.join(),
@@ -35,10 +38,14 @@ const Bills: FC = () => {
     income: true,
   });
 
+  console.log('income:::', income);
+
   const splitIncome = useMemo(() => ({
     mine: income?.filter((t: any) => t.owner === 'mine') ?? [],
     hers: income?.filter((t: any) => t.owner === 'hers') ?? [],
   }), [income]);
+
+  console.log('splitIncome:::', splitIncome);
 
   const sharedTransactions = useMemo(() => {
     const result: Record<'mine' | 'hers', Record<CategoryName, any[]>> = {
@@ -70,12 +77,12 @@ const Bills: FC = () => {
 
       const mineBillTotal = mineBills
         .flatMap((b: any) => b.transactions ?? [])
-        .filter((t: any) => t.billMonth === bm)
+        .filter((t: any) => t.month === bm)
         .reduce((sum: number, t: any) => sum + t.amount, 0);
 
       const hersBillTotal = hersBills
         .flatMap((b: any) => b.transactions ?? [])
-        .filter((t: any) => t.billMonth === bm)
+        .filter((t: any) => t.month === bm)
         .reduce((sum: number, t: any) => sum + t.amount, 0);
 
       const mineCategoryTotal = sumByMonth(
@@ -106,44 +113,75 @@ const Bills: FC = () => {
     cellRefs.current[rowIndex][colIndex] = el;
   }
 
-  function focusNextRow(rowIndex: number, colIndex: number) {
+  function focusDown(rowIndex: number, colIndex: number) {
     cellRefs.current[rowIndex + 1]?.[colIndex]?.focus();
+  }
+
+  function focusUp(rowIndex: number, colIndex: number) {
+    cellRefs.current[rowIndex - 1]?.[colIndex]?.focus();
+  }
+
+  function focusRight(rowIndex: number, colIndex: number) {
+    if (colIndex < 2) {
+      cellRefs.current[rowIndex]?.[colIndex + 1]?.focus();
+    } else {
+      cellRefs.current[rowIndex + 1]?.[0]?.focus();
+    }
+  }
+
+  function focusLeft(rowIndex: number, colIndex: number) {
+    if (colIndex > 0) {
+      cellRefs.current[rowIndex]?.[colIndex - 1]?.focus();
+    } else {
+      cellRefs.current[rowIndex - 1]?.[2]?.focus();
+    }
   }
 
   const hersBills = bills?.filter((b: any) => b.owner === 'hers') ?? [];
   const mineBills = bills?.filter((b: any) => b.owner === 'mine') ?? [];
 
   return (
-    <div>
-      <h2>Bills</h2>
-      <div className="tw:ml-[48px]">
-        <BillRowHeader />
+    <div className="tw:flex tw:content-start tw:gap-[48px]">
+      <div className="tw:w-[590px]">
+        <h2 className="tw:text-center">Bills</h2>
+        <div className="tw:ml-[48px]">
+          <BillRowHeader />
+        </div>
+        <OwnerSection
+          owner="hers"
+          bills={hersBills}
+          categoryTransactions={sharedTransactions.hers}
+          income={splitIncome.hers}
+          month={month}
+          year={year}
+          rowOffset={0}
+          registerRef={registerRef}
+          onUp={focusUp}
+          onDown={focusDown}
+          onLeft={focusLeft}
+          onRight={focusRight}
+        />
+        <OwnerSection
+          owner="mine"
+          bills={mineBills}
+          categoryTransactions={sharedTransactions.mine}
+          income={splitIncome.mine}
+          month={month}
+          year={year}
+          rowOffset={hersBills.length}
+          registerRef={registerRef}
+          onUp={focusUp}
+          onDown={focusDown}
+          onLeft={focusLeft}
+          onRight={focusRight}
+        />
+        <div className="tw:ml-[48px] tw:mt-[8px]">
+          <button onClick={handleCalculateTransfer}>Run the Numbas!</button>
+          <TransferRow transfers={transfers} isStale={isTransferStale} />
+        </div>
       </div>
-      <OwnerSection
-        owner="hers"
-        bills={hersBills}
-        categoryTransactions={sharedTransactions.hers}
-        income={splitIncome.hers}
-        month={month}
-        year={year}
-        rowOffset={0}
-        registerRef={registerRef}
-        onEnter={focusNextRow}
-      />
-      <OwnerSection
-        owner="mine"
-        bills={mineBills}
-        categoryTransactions={sharedTransactions.mine}
-        income={splitIncome.mine}
-        month={month}
-        year={year}
-        rowOffset={hersBills.length}
-        registerRef={registerRef}
-        onEnter={focusNextRow}
-      />
-      <div className="tw:ml-[48px] tw:mt-[8px]">
-        <button onClick={handleCalculateTransfer}>Run the Numbas!</button>
-        <TransferRow transfers={transfers} isStale={isTransferStale} />
+      <div className="tw:mt-[48px]">
+        <IncomeBlock />
       </div>
     </div>
   );

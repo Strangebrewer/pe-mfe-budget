@@ -14,11 +14,11 @@ const TotalRow: FC<TotalRowProps> = ({ bills, transactions, month, year }) => {
 
     const billTotal = bills
       .flatMap((b: any) => b.transactions ?? [])
-      .filter((t: any) => t.billMonth === billMonth)
+      .filter((t: any) => t.month === billMonth)
       .reduce((sum: number, t: any) => sum + t.amount, 0);
 
     const categoryTotal = transactions
-      .filter((t: any) => t.date.substring(0, 7) === billMonth)
+      .filter((t: any) => t.month === billMonth)
       .reduce((sum: number, t: any) => sum + t.amount, 0);
 
     const total = billTotal + categoryTotal;

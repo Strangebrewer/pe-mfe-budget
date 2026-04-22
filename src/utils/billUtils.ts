@@ -24,7 +24,7 @@ export function toStoredAmount(value: string): number {
 
 export function sumByMonth(transactions: any[], billMonth: string): number {
   return transactions
-    .filter(t => t.date?.substring(0, 7) === billMonth)
+    .filter(t => t.month === billMonth)
     .reduce((sum, t) => sum + t.amount, 0);
 }
 
