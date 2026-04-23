@@ -4,6 +4,7 @@ import { useBillMonthStore } from "../state/useBillMonth";
 import BillRowHeader from "../components/bills/BillRowHeader";
 import OwnerSection from "../components/bills/OwnerSection";
 import TransferRow from "../components/bills/TransferRow";
+import AddBillModal from "../components/bills/AddBillModal";
 import { useGetTransactions } from "../hooks/transactionHooks";
 import { useGetCategories } from "../hooks/categoryHooks";
 import { calculateTransfer, getBillMonthForColumn, sumByMonth } from "../utils/billUtils";
@@ -62,6 +63,7 @@ const Bills: FC = () => {
     return result;
   }, [transactions, categories]);
 
+  const [showAddBill, setShowAddBill] = useState(false);
   const [transfers, setTransfers] = useState<(number | null)[]>([null, null, null]);
   const { isTransferStale, clearTransferStale } = useTransferStaleStore();
 
@@ -142,8 +144,12 @@ const Bills: FC = () => {
 
   return (
     <div className="tw:flex tw:content-start tw:gap-[48px]">
+      {showAddBill && <AddBillModal onClose={() => setShowAddBill(false)} />}
       <div className="tw:w-[590px]">
-        <h2 className="tw:text-center">Bills</h2>
+        <div className="tw:flex tw:items-center tw:justify-between tw:mb-2">
+          <h2>Bills</h2>
+          <button onClick={() => setShowAddBill(true)}>+ New Bill</button>
+        </div>
         <div className="tw:ml-[48px]">
           <BillRowHeader />
         </div>

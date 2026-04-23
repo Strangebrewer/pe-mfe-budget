@@ -77,7 +77,9 @@ Implemented in `calculateTransfer()` in `src/utils/billUtils.ts`. Called per col
 ```
 src/
   components/
+    Modal.tsx               ← reusable overlay modal (fixed inset, scrollable body)
     bills/              ← all components used by the Bills summary page
+      AddBillModal.tsx      ← create bill form modal; fetches accounts + categories for selects
       BillRow.tsx
       BillRowHeader.tsx
       CategoryRow.tsx
