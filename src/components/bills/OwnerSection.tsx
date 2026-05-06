@@ -2,8 +2,8 @@ import { FC } from "react";
 import { SHARED_CATEGORY_NAMES, CategoryName } from "../../config";
 
 const sidebarStyles: Record<'mine' | 'hers', string> = {
-  mine: 'tw:w-[48px] tw:flex tw:border tw:bg-[blue]',
-  hers: 'tw:w-[48px] tw:flex tw:border tw:bg-[pink]',
+  mine: 'tw:w-[48px] tw:flex tw:border tw:border-[#00E5FF] tw:bg-[#00E5FF] tw:text-[#0d0a14]',
+  hers: 'tw:w-[48px] tw:flex tw:border tw:border-[#e22c5a] tw:bg-[#e22c5a] tw:text-[#f0e6ff]',
 };
 import BillRow from "./BillRow";
 import CategoryRow from "./CategoryRow";
@@ -35,7 +35,7 @@ const OwnerSection: FC<OwnerSectionProps> = ({
       <div className={sidebarStyles[owner]}>
         <p className="tw:m-auto">{owner === 'mine' ? 'Mine' : 'Hers'}</p>
       </div>
-      <div className="tw:grow">
+      <div className="tw:grow tw:bg-white tw:text-[#1a0f2e]">
         {bills.map((bill: any, i: number) => (
           <BillRow
             key={bill.id}

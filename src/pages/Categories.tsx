@@ -53,13 +53,13 @@ const Categories: FC = () => {
     <div>
       <h2 className="tw:mb-4">Categories — {ownerLabel}</h2>
       <div className="tw:flex tw:items-center tw:gap-3 tw:mb-6">
-        <ActionButton color="blue" onClick={() => moveDisplayWindow(true)} iconClass="fas fa-arrow-left" />
-        <span className="tw:text-sm tw:font-medium">{getDisplayMonth(0)}</span>
-        <span className="tw:text-sm tw:font-medium tw:mx-2">·</span>
-        <span className="tw:text-sm tw:font-medium">{getDisplayMonth(1)}</span>
-        <span className="tw:text-sm tw:font-medium tw:mx-2">·</span>
-        <span className="tw:text-sm tw:font-medium">{getDisplayMonth(2)}</span>
-        <ActionButton color="blue" onClick={() => moveDisplayWindow()} iconClass="fas fa-arrow-right" />
+        <ActionButton color="nCyan" onClick={() => moveDisplayWindow(true)} iconClass="fas fa-arrow-left" />
+        <span className="tw:text-sm tw:font-medium tw:text-[#c4b5fd]">{getDisplayMonth(0)}</span>
+        <span className="tw:text-sm tw:font-medium tw:mx-2 tw:text-[#c4b5fd]">·</span>
+        <span className="tw:text-sm tw:font-medium tw:text-[#c4b5fd]">{getDisplayMonth(1)}</span>
+        <span className="tw:text-sm tw:font-medium tw:mx-2 tw:text-[#c4b5fd]">·</span>
+        <span className="tw:text-sm tw:font-medium tw:text-[#c4b5fd]">{getDisplayMonth(2)}</span>
+        <ActionButton color="nCyan" onClick={() => moveDisplayWindow()} iconClass="fas fa-arrow-right" />
       </div>
       <div className="tw:flex tw:gap-8">
         {SHARED_CATEGORY_NAMES.map(name => {

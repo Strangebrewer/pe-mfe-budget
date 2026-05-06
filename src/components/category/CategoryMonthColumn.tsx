@@ -23,8 +23,8 @@ const CategoryMonthColumn: FC<Props> = ({
   const newRowIdx = transactions.length;
 
   return (
-    <div className="tw:w-[180px]">
-      <div className="tw:flex tw:border-b tw:border-gray-400 tw:pb-[2px] tw:mb-[2px]">
+    <div className="tw:w-[180px] tw:bg-white tw:text-[#1a0f2e]">
+      <div className="tw:flex tw:border-b tw:border-[#1a0f2e] tw:pb-[2px] tw:mb-[2px]">
         <div className="tw:w-[120px] tw:pl-[12px] tw:font-semibold tw:text-sm">{monthLabel}</div>
         <div className="tw:w-[60px] tw:pr-[4px] tw:text-right tw:font-semibold tw:text-sm">
           {total ? toDisplayAmount(total) : ''}

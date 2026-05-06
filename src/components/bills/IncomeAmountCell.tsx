@@ -79,7 +79,7 @@ const IncomeAmountCell: FC<Props> = ({ transaction, owner, month, amountRef, onU
   return (
     <input
       ref={amountRef}
-      className="tw:w-[100px] tw:border tw:pr-[4px] tw:text-right tw:text-sm"
+      className="tw:w-[100px] tw:border tw:pr-[4px] tw:text-right tw:text-sm tw:bg-white tw:text-[#1a0f2e]"
       value={amount}
       onChange={e => setAmount(e.target.value)}
       onKeyDown={handleKeyDown}
