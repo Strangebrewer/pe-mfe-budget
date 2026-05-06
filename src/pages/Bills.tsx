@@ -144,11 +144,16 @@ const Bills: FC = () => {
 
   return (
     <div className="tw:flex tw:content-start tw:gap-[48px]">
-      {showAddBill && <AddBillModal onClose={() => setShowAddBill(false)} />}
+      <AddBillModal isOpen={showAddBill} onClose={() => setShowAddBill(false)} />
       <div className="tw:w-[590px]">
         <div className="tw:flex tw:items-center tw:justify-between tw:mb-2">
           <h2>Bills</h2>
-          <button onClick={() => setShowAddBill(true)}>+ New Bill</button>
+          <button
+            onClick={() => setShowAddBill(true)}
+            className="tw:border tw:border-[#BC13FE] tw:text-[#BC13FE] tw:bg-transparent tw:px-3 tw:py-1 tw:text-sm tw:rounded tw:cursor-pointer tw:hover:bg-[#BC13FE] tw:hover:text-[#0d0a14] tw:transition-colors"
+          >
+            + New Bill
+          </button>
         </div>
         <div className="tw:ml-[48px]">
           <BillRowHeader />
@@ -182,7 +187,12 @@ const Bills: FC = () => {
           onRight={focusRight}
         />
         <div className="tw:ml-[48px] tw:mt-[8px]">
-          <button onClick={handleCalculateTransfer}>Run the Numbas!</button>
+          <button
+            onClick={handleCalculateTransfer}
+            className="tw:border tw:border-[#51CB20] tw:text-[#51CB20] tw:bg-transparent tw:px-3 tw:py-1 tw:text-sm tw:rounded tw:cursor-pointer tw:hover:bg-[#51CB20] tw:hover:text-[#0d0a14] tw:transition-colors tw:mb-2"
+          >
+            Run the Numbas!
+          </button>
           <TransferRow transfers={transfers} isStale={isTransferStale} />
         </div>
       </div>

@@ -99,7 +99,7 @@ const IncomeBlock: FC = () => {
     onBoundaryLeft?: () => void,
   ) {
     return Array.from({ length: maxRows }, (_, rowIdx) => (
-      <div key={rowIdx} className="tw:flex">
+      <div key={rowIdx} className="tw:flex tw:bg-white">
         {[0, 1, 2].map(colIdx => (
           <IncomeAmountCell
             key={colIdx}
@@ -117,7 +117,7 @@ const IncomeBlock: FC = () => {
     ));
   }
 
-  const sidebarBase = 'tw:w-[80px] tw:flex tw:items-center tw:justify-center tw:border tw:text-sm';
+  const sidebarBase = 'tw:w-[80px] tw:flex tw:items-center tw:justify-center tw:border tw:text-sm tw:font-semibold';
 
   return (
     <div>
@@ -125,13 +125,13 @@ const IncomeBlock: FC = () => {
       <div className="tw:flex">
         <div className="tw:w-[80px]" />
         {[0, 1, 2].map(colIdx => (
-          <div key={colIdx} className="tw:w-[100px] tw:text-right tw:pr-[4px] tw:font-semibold tw:text-sm">
+          <div key={colIdx} className="tw:w-[100px] tw:text-right tw:pr-[4px] tw:font-semibold tw:text-sm tw:text-[#c4b5fd]">
             {getMonthLabel(colIdx)}
           </div>
         ))}
       </div>
 
-      <div className="tw:flex">
+      <div className="tw:flex tw:bg-white tw:text-[#1a0f2e]">
         <div className="tw:w-[80px] tw:text-sm tw:pl-[4px]">C - Total</div>
         {[0, 1, 2].map(colIdx => (
           <div key={colIdx} className="tw:w-[100px] tw:border tw:text-right tw:pr-[4px] tw:text-sm">
@@ -140,7 +140,7 @@ const IncomeBlock: FC = () => {
         ))}
       </div>
 
-      <div className="tw:flex">
+      <div className="tw:flex tw:bg-white tw:text-[#1a0f2e]">
         <div className="tw:w-[80px] tw:text-sm tw:pl-[4px]">K - Total</div>
         {[0, 1, 2].map(colIdx => (
           <div key={colIdx} className="tw:w-[100px] tw:border tw:text-right tw:pr-[4px] tw:text-sm">
@@ -150,7 +150,7 @@ const IncomeBlock: FC = () => {
       </div>
 
       <div className="tw:flex">
-        <div className={`${sidebarBase} tw:bg-[pink]`}>Hers</div>
+        <div className={`${sidebarBase} tw:bg-[#e22c5a] tw:border-[#e22c5a] tw:text-[#f0e6ff]`}>Hers</div>
         <div>{renderRows(
           hersByCol, 'hers', hersRefs, maxHersRows,
           colIdx => mineRefs.current[0]?.[colIdx]?.focus(),
@@ -160,7 +160,7 @@ const IncomeBlock: FC = () => {
       </div>
 
       <div className="tw:flex">
-        <div className={`${sidebarBase} tw:bg-[blue] tw:text-white`}>Mine</div>
+        <div className={`${sidebarBase} tw:bg-[#00E5FF] tw:border-[#00E5FF] tw:text-[#0d0a14]`}>Mine</div>
         <div>{renderRows(
           mineByCol, 'mine', mineRefs, maxMineRows,
           undefined,

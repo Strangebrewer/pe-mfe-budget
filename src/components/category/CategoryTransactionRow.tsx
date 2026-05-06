@@ -163,14 +163,14 @@ const CategoryTransactionRow: FC<Props> = ({
     <div className="tw:flex">
       <input
         ref={handleDescRef}
-        className="tw:w-[120px] tw:border tw:pl-[4px] tw:text-sm"
+        className="tw:w-[120px] tw:border tw:pl-[4px] tw:text-sm tw:bg-white tw:text-[#1a0f2e]"
         value={desc}
         onChange={e => setDesc(e.target.value)}
         onKeyDown={handleDescKeyDown}
       />
       <input
         ref={amountInputRef}
-        className={`tw:w-[60px] tw:border tw:pr-[4px] tw:text-right tw:text-sm${amountError ? ' tw:outline tw:outline-2 tw:outline-red-500' : ''}`}
+        className={`tw:w-[60px] tw:border tw:pr-[4px] tw:text-right tw:text-sm tw:bg-white tw:text-[#1a0f2e]${amountError ? ' tw:outline tw:outline-2 tw:outline-red-500' : ''}`}
         value={amount}
         onChange={e => {
           setAmount(e.target.value);

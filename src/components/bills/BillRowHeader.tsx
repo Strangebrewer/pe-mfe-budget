@@ -22,12 +22,12 @@ const BillRowHeader = () => {
   }
 
   return (
-    <div className="tw:w-[850px] tw:flex">
+    <div className="tw:w-[850px] tw:flex tw:bg-[#1a0f2e] tw:text-[#f0e6ff] tw:py-[2px]">
       <div className="tw:w-[300px] tw:pl-[4px]">Name</div>
 
       <div className="tw:w-[80px] tw:text-center tw:relative">
         <span className="tw:absolute tw:left-0">
-          <ActionButton color="blue" onClick={() => moveDisplayWindow(true)} iconClass="fas fa-arrow-left" />
+          <ActionButton color="nCyan" onClick={() => moveDisplayWindow(true)} iconClass="fas fa-arrow-left" />
         </span>
         {getDisplayMonth(2)}
       </div>
@@ -37,7 +37,7 @@ const BillRowHeader = () => {
       <div className="tw:w-[80px] tw:text-center tw:relative">
         {getDisplayMonth()}
         <span className="tw:absolute tw:right-0">
-          <ActionButton color="blue" onClick={() => moveDisplayWindow()} iconClass="fas fa-arrow-right" />
+          <ActionButton color="nCyan" onClick={() => moveDisplayWindow()} iconClass="fas fa-arrow-right" />
         </span>
       </div>
     </div>
