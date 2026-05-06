@@ -12,3 +12,6 @@ coverage/
 .jest-cache
 harness
 NOTES.md
+dist/
+.env
+.env.local

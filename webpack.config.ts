@@ -5,11 +5,14 @@ import path from 'path';
 import webpack from 'webpack';
 import { createWebpackConfig, defaultShared } from '@bka-stuff/pe-mfe-utils';
 import { fileURLToPath } from "url";
+import dotenv from 'dotenv';
+
+dotenv.config({ path: '.env.local' });
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const APP_NAME = 'mfe_app_one';
+const APP_NAME = 'pe_mfe_budget';
 
 const config = {
   ...createWebpackConfig({
@@ -22,6 +25,9 @@ const config = {
     plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
+    }),
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(process.env),
     }),
     new webpack.container.ModuleFederationPlugin({
       name: APP_NAME,

@@ -1,1 +1,20 @@
 @import "tailwindcss" prefix(tw);
+
+@theme {
+  --color-purple: var(--nPurple);
+  --color-purpleAlpha: var(--nPurpleAlpha);
+  --color-red: var(--candy);
+  --color-redAlpha: var(--candyAlpha);
+  --color-green: var(--lime);
+  --color-greenAlpha: var(--limeAlpha);
+  --color-blue: var(--nCyan);
+  --color-blueAlpha: var(--nCyanAlpha);
+  --color-surface: var(--surface);
+  --color-bg: var(--baseBg);
+  --color-primary: var(--textPrimary);
+  --color-muted: var(--textMuted);
+}
+
+body {
+  color: var(--textPrimary);
+}
