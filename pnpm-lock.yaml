@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@bka-stuff/pe-mfe-utils':
         specifier: github:Strangebrewer/pe-mfe-utils#main
-        version: https://codeload.github.com/Strangebrewer/pe-mfe-utils/tar.gz/4c4799f6297b472d0a7336a09a7cc4829f50f4fa(@types/react@18.3.27)(axios@1.13.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: https://codeload.github.com/Strangebrewer/pe-mfe-utils/tar.gz/c47b96b0f68bd9790ae17c613489d70dbef88617(@types/react@18.3.27)(axios@1.13.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-query':
         specifier: ^5.90.21
         version: 5.99.0(react@18.3.1)
@@ -114,8 +114,8 @@ packages:
     resolution: {integrity: sha512-qSs4ifwzKJSV39ucNjsvc6WVHs6b7S03sOh2OcHF9UHfVPqWWALUsNUVzhSBiItjRZoLHx7nIarVjqKVusUZ1Q==}
     engines: {node: '>=6.9.0'}
 
-  '@bka-stuff/pe-mfe-utils@https://codeload.github.com/Strangebrewer/pe-mfe-utils/tar.gz/4c4799f6297b472d0a7336a09a7cc4829f50f4fa':
-    resolution: {tarball: https://codeload.github.com/Strangebrewer/pe-mfe-utils/tar.gz/4c4799f6297b472d0a7336a09a7cc4829f50f4fa}
+  '@bka-stuff/pe-mfe-utils@https://codeload.github.com/Strangebrewer/pe-mfe-utils/tar.gz/c47b96b0f68bd9790ae17c613489d70dbef88617':
+    resolution: {tarball: https://codeload.github.com/Strangebrewer/pe-mfe-utils/tar.gz/c47b96b0f68bd9790ae17c613489d70dbef88617}
     version: 0.1.0
     peerDependencies:
       axios: 1.13.6
@@ -2136,7 +2136,7 @@ snapshots:
 
   '@babel/helper-validator-identifier@7.28.5': {}
 
-  '@bka-stuff/pe-mfe-utils@https://codeload.github.com/Strangebrewer/pe-mfe-utils/tar.gz/4c4799f6297b472d0a7336a09a7cc4829f50f4fa(@types/react@18.3.27)(axios@1.13.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@bka-stuff/pe-mfe-utils@https://codeload.github.com/Strangebrewer/pe-mfe-utils/tar.gz/c47b96b0f68bd9790ae17c613489d70dbef88617(@types/react@18.3.27)(axios@1.13.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       axios: 1.13.6
       jwt-decode: 4.0.0
