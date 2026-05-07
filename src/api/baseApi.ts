@@ -10,25 +10,34 @@ export default class BaseApi {
     this.endpoint = endpoint;
   }
 
-  get(query?: Record<string, any>) {
+  get(query?: Record<string, any>, shouldTrace = false) {
     const searchParams = new URLSearchParams(query).toString();
-    console.log('searchParams:::', searchParams);
-    return this.axiosWithAuth.get(`${this.endpoint}${query ? '?' + searchParams : ''}`);
+    const headers: Record<string, any> = {};
+    if (shouldTrace) headers['X-Trace-ID'] = crypto.randomUUID();
+    return this.axiosWithAuth.get(`${this.endpoint}${query ? '?' + searchParams : ''}`, { headers });
   }
 
-  getOne(id: string) {
-    return this.axiosWithAuth.get(`${this.endpoint}/${id}`);
+  getOne(id: string, shouldTrace = false) {
+    const headers: Record<string, any> = {};
+    if (shouldTrace) headers['X-Trace-ID'] = crypto.randomUUID();
+    return this.axiosWithAuth.get(`${this.endpoint}/${id}`, { headers });
   }
 
-  create(data: Record<string, any>) {
-    return this.axiosWithAuth.post(this.endpoint, data);
+  create(data: Record<string, any>, shouldTrace = false) {
+    const headers: Record<string, any> = {};
+    if (shouldTrace) headers['X-Trace-ID'] = crypto.randomUUID();
+    return this.axiosWithAuth.post(this.endpoint, data, { headers });
   }
 
-  update(item: any) {
-    return this.axiosWithAuth.put(`${this.endpoint}/${item.id}`, item);
+  update(item: any, shouldTrace = false) {
+    const headers: Record<string, any> = {};
+    if (shouldTrace) headers['X-Trace-ID'] = crypto.randomUUID();
+    return this.axiosWithAuth.put(`${this.endpoint}/${item.id}`, item, { headers });
   }
 
-  delete(id: string) {
-    return this.axiosWithAuth.delete(`${this.endpoint}/${id}`);
+  delete(id: string, shouldTrace = false) {
+    const headers: Record<string, any> = {};
+    if (shouldTrace) headers['X-Trace-ID'] = crypto.randomUUID();
+    return this.axiosWithAuth.delete(`${this.endpoint}/${id}`, { headers });
   }
 }
