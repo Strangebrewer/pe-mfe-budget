@@ -95,12 +95,12 @@ const BillRow: FC<BillRowProps> = ({ bill, rowIndex, month, year, registerRef, o
 
   return (
     <div className="tw:w-[540px] tw:flex">
-      <div className="tw:w-[300px] tw:border tw:pl-[4px]">{bill.name}</div>
+      <div className="tw:w-[300px] tw:border tw:border-cellBorder tw:pl-[4px]">{bill.name}</div>
       {[0, 1, 2].map(colIndex => (
         <input
           key={colIndex}
           ref={el => registerRef(rowIndex, colIndex, el)}
-          className="tw:w-[80px] tw:pr-[4px] tw:border tw:text-right"
+          className="tw:w-[80px] tw:pr-[4px] tw:border tw:border-cellBorder tw:text-right tw:bg-transparent tw:text-primary tw:focus:outline-none tw:focus:bg-[#ffffff0a]"
           value={values[colIndex]}
           onChange={e => handleChange(colIndex, e.target.value)}
           onBlur={() => handleBlur(colIndex)}

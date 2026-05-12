@@ -35,7 +35,7 @@ const OwnerSection: FC<OwnerSectionProps> = ({
       <div className={sidebarStyles[owner]}>
         <p className="tw:m-auto">{owner === 'mine' ? 'Mine' : 'Hers'}</p>
       </div>
-      <div className="tw:grow tw:bg-white tw:text-[#1a0f2e]">
+      <div className="tw:grow">
         {bills.map((bill: any, i: number) => (
           <BillRow
             key={bill.id}

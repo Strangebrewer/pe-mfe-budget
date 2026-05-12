@@ -17,10 +17,10 @@ const CategoryRow: FC<CategoryRowProps> = ({ title, transactions, month, year })
   }
 
   return (
-    <div className="tw:w-[540px] tw:flex tw:bg-[#0000ff22]">
-      <div className="tw:w-[300px] tw:border tw:pl-[4px]">{title}</div>
+    <div className="tw:w-[540px] tw:flex tw:bg-blueAlpha">
+      <div className="tw:w-[300px] tw:border tw:border-cellBorder tw:pl-[4px]">{title}</div>
       {[0, 1, 2].map(colIndex => (
-        <div key={colIndex} className="tw:w-[80px] tw:pr-[4px] tw:border tw:text-right">
+        <div key={colIndex} className="tw:w-[80px] tw:pr-[4px] tw:border tw:border-cellBorder tw:text-right">
           {getTotalForColumn(colIndex)}
         </div>
       ))}
