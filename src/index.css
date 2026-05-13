@@ -37,3 +37,8 @@
 body {
   color: var(--textPrimary);
 }
+
+input[type="month"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}

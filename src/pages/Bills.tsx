@@ -7,16 +7,13 @@ import TransferRow from '../components/bills/TransferRow';
 import AddBillModal from '../components/bills/AddBillModal';
 import { useGetTransactions } from '../hooks/transactionHooks';
 import { useGetCategories } from '../hooks/categoryHooks';
-import {
-  calculateTransfer,
-  getBillMonthForColumn,
-  sumByMonth,
-} from '../utils/billUtils';
 import { useTransferStaleStore } from '../state/useTransferStale';
 import { CategoryName, SHARED_CATEGORY_NAMES } from '../config';
 import IncomeBlock from '../components/bills/IncomeBlock';
-import { ActionButton, Input, Label } from '@bka-stuff/pe-mfe-utils';
+import { ActionButton, Card } from '@bka-stuff/pe-mfe-utils';
 import NewTransactionWidget from '../components/bills/NewTransactionWidget';
+import TotalsBlock from '../components/bills/TotalsBlock';
+import MonthNav from '../components/MonthNav';
 
 const TRANSACTION_COL_COUNT = 3;
 
@@ -72,53 +69,7 @@ const Bills: FC = () => {
   }, [transactions, categories]);
 
   const [showAddBill, setShowAddBill] = useState(false);
-  const [transfers, setTransfers] = useState<(number | null)[]>([
-    null,
-    null,
-    null,
-  ]);
-  const { isTransferStale, clearTransferStale } = useTransferStaleStore();
-
-  function handleCalculateTransfer() {
-    const result = [0, 1, 2].map((colIndex) => {
-      const bm = getBillMonthForColumn(month, year, colIndex);
-
-      const mineIncome = sumByMonth(splitIncome.mine, bm);
-      const hersIncome = sumByMonth(splitIncome.hers, bm);
-
-      const mineBills = (bills ?? []).filter((b: any) => b.owner === 'mine');
-      const hersBills = (bills ?? []).filter((b: any) => b.owner === 'hers');
-
-      const mineBillTotal = mineBills
-        .flatMap((b: any) => b.transactions ?? [])
-        .filter((t: any) => t.month === bm)
-        .reduce((sum: number, t: any) => sum + t.amount, 0);
-
-      const hersBillTotal = hersBills
-        .flatMap((b: any) => b.transactions ?? [])
-        .filter((t: any) => t.month === bm)
-        .reduce((sum: number, t: any) => sum + t.amount, 0);
-
-      const mineCategoryTotal = sumByMonth(
-        SHARED_CATEGORY_NAMES.flatMap((name) => sharedTransactions.mine[name]),
-        bm,
-      );
-
-      const hersCategoryTotal = sumByMonth(
-        SHARED_CATEGORY_NAMES.flatMap((name) => sharedTransactions.hers[name]),
-        bm,
-      );
-
-      return calculateTransfer(
-        mineIncome,
-        hersIncome,
-        mineBillTotal + mineCategoryTotal,
-        hersBillTotal + hersCategoryTotal,
-      );
-    });
-    setTransfers(result);
-    clearTransferStale();
-  }
+  const { markTransferStale } = useTransferStaleStore();
 
   function registerRef(
     rowIndex: number,
@@ -159,68 +110,80 @@ const Bills: FC = () => {
   const mineBills = bills?.filter((b: any) => b.owner === 'mine') ?? [];
 
   return (
-    <div className="tw:flex tw:justify-center tw:items-start tw:gap-[48px] tw:px-8 tw:pt-8">
-      <AddBillModal
-        isOpen={showAddBill}
-        onClose={() => setShowAddBill(false)}
-      />
-      <div className="tw:bg-surface tw:border tw:border-purpleBorder tw:rounded-lg tw:p-[36px] tw:pt-[24px] tw:shadow-[0_0_24px_rgba(188,19,254,0.2)]">
-        <div className="tw:w-[590px]">
-          <h2 className="tw:text-3xl tw:font-bold tw:text-center tw:mb-3">
-            Bills&nbsp;
-            <ActionButton
-              iconClass="fas fa-plus"
-              onClick={() => setShowAddBill(true)}
-            />
-          </h2>
-          <div className="tw:ml-[48px]">
+    <div className="tw:px-8 tw:pb-8">
+      <h2 className="tw:my-4 tw:text-3xl tw:font-bold tw:text-center">
+        Monthly Bills at a Glance
+      </h2>
+
+      <MonthNav onNavigate={markTransferStale} />
+
+      <div className="tw:flex tw:justify-center tw:items-start tw:gap-[48px]">
+        <AddBillModal
+          isOpen={showAddBill}
+          onClose={() => setShowAddBill(false)}
+        />
+
+        <Card>
+          <div className="tw:w-[602px]">
+            <h2 className="tw:text-3xl tw:font-bold tw:text-center tw:mb-3">
+              Bills&nbsp;
+              <ActionButton
+                iconClass="fas fa-plus"
+                onClick={() => setShowAddBill(true)}
+              />
+            </h2>
+
             <BillRowHeader />
+
+            <OwnerSection
+              owner="hers"
+              bills={hersBills}
+              categoryTransactions={sharedTransactions.hers}
+              income={splitIncome.hers}
+              month={month}
+              year={year}
+              rowOffset={0}
+              registerRef={registerRef}
+              onUp={focusUp}
+              onDown={focusDown}
+              onLeft={focusLeft}
+              onRight={focusRight}
+            />
+
+            <OwnerSection
+              owner="mine"
+              bills={mineBills}
+              categoryTransactions={sharedTransactions.mine}
+              income={splitIncome.mine}
+              month={month}
+              year={year}
+              rowOffset={hersBills.length}
+              registerRef={registerRef}
+              onUp={focusUp}
+              onDown={focusDown}
+              onLeft={focusLeft}
+              onRight={focusRight}
+            />
+
+            <TotalsBlock
+              income={income ?? []}
+              bills={bills ?? []}
+              transactions={transactions ?? []}
+              month={month}
+              year={year}
+            />
+
+            <TransferRow
+              splitIncome={splitIncome}
+              bills={bills}
+              sharedTransactions={sharedTransactions}
+            />
           </div>
-          <OwnerSection
-            owner="hers"
-            bills={hersBills}
-            categoryTransactions={sharedTransactions.hers}
-            income={splitIncome.hers}
-            month={month}
-            year={year}
-            rowOffset={0}
-            registerRef={registerRef}
-            onUp={focusUp}
-            onDown={focusDown}
-            onLeft={focusLeft}
-            onRight={focusRight}
-          />
-          <OwnerSection
-            owner="mine"
-            bills={mineBills}
-            categoryTransactions={sharedTransactions.mine}
-            income={splitIncome.mine}
-            month={month}
-            year={year}
-            rowOffset={hersBills.length}
-            registerRef={registerRef}
-            onUp={focusUp}
-            onDown={focusDown}
-            onLeft={focusLeft}
-            onRight={focusRight}
-          />
-          <div className="tw:ml-[48px] tw:mt-[8px]">
-            <button
-              onClick={handleCalculateTransfer}
-              className="tw:border tw:border-[#51CB20] tw:text-[#51CB20] tw:bg-transparent tw:px-3 tw:py-1 tw:text-sm tw:rounded tw:cursor-pointer tw:hover:bg-[#51CB20] tw:hover:text-[#0d0a14] tw:transition-colors tw:mb-2"
-            >
-              Run the Numbas!
-            </button>
-            <TransferRow transfers={transfers} isStale={isTransferStale} />
-          </div>
-        </div>
-      </div>
-      <div className="tw:flex tw:flex-col tw:gap-[48px]">
-        <div className="tw:bg-surface tw:border tw:border-purpleBorder tw:rounded-lg tw:p-[36px] tw:pt-[24px] tw:shadow-[0_0_24px_rgba(188,19,254,0.2)]">
+        </Card>
+
+        <div className="tw:flex tw:flex-col tw:gap-[48px]">
           <IncomeBlock />
-        </div>
-        <div className="tw:bg-surface tw:border tw:border-purpleBorder tw:rounded-lg tw:p-[36px] tw:pt-[24px] tw:shadow-[0_0_24px_rgba(188,19,254,0.2)]">
-          <NewTransactionWidget />
+          <NewTransactionWidget categories={categories ?? []} />
         </div>
       </div>
     </div>

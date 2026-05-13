@@ -4,6 +4,7 @@ import { useBillMonthStore } from '../../state/useBillMonth';
 import { useGetTransactions } from '../../hooks/transactionHooks';
 import { getBillMonthForColumn, toDisplayAmount } from '../../utils/billUtils';
 import IncomeAmountCell from './IncomeAmountCell';
+import { Card } from '@bka-stuff/pe-mfe-utils';
 
 const IncomeBlock: FC = () => {
   const { billMonth, month, year } = useBillMonthStore();
@@ -146,11 +147,10 @@ const IncomeBlock: FC = () => {
   }
 
   const sidebarBase =
-    'tw:w-[80px] tw:flex tw:items-center tw:justify-center tw:border tw:text-sm tw:font-semibold';
+    'tw:w-[80px] tw:flex tw:items-center tw:justify-center tw:border-r tw:text-sm tw:font-semibold';
 
   return (
-    <div>
-      <h2 className="tw:text-xl tw:font-bold tw:text-center tw:mb-3">Income</h2>
+    <Card heading="Income">
       <div className="tw:flex">
         <div className="tw:w-[80px]" />
         {[0, 1, 2].map((colIdx) => (
@@ -164,7 +164,9 @@ const IncomeBlock: FC = () => {
       </div>
 
       <div className="tw:flex tw:bg-surface tw:text-primary">
-        <div className="tw:w-[80px] tw:text-sm tw:pl-[4px]">C - Total</div>
+        <div className="tw:w-[80px] tw:text-sm tw:pl-[4px] tw:text-red">
+          C - Total
+        </div>
         {[0, 1, 2].map((colIdx) => (
           <div
             key={colIdx}
@@ -175,8 +177,10 @@ const IncomeBlock: FC = () => {
         ))}
       </div>
 
-      <div className="tw:flex tw:bg-surface tw:text-primary">
-        <div className="tw:w-[80px] tw:text-sm tw:pl-[4px]">K - Total</div>
+      <div className="tw:flex tw:bg-surface tw:text-primary tw:mb-[12px]">
+        <div className="tw:w-[80px] tw:text-sm tw:pl-[4px] tw:text-blue">
+          K - Total
+        </div>
         {[0, 1, 2].map((colIdx) => (
           <div
             key={colIdx}
@@ -187,12 +191,8 @@ const IncomeBlock: FC = () => {
         ))}
       </div>
 
-      <div className="tw:flex">
-        <div
-          className={`${sidebarBase} tw:bg-[#e22c5a] tw:border-[#e22c5a] tw:text-[#f0e6ff]`}
-        >
-          Hers
-        </div>
+      <div className="tw:flex tw:border tw:border-red tw:rounded-l tw:mb-[12px]">
+        <div className={`${sidebarBase} tw:border-red tw:text-red`}>Hers</div>
         <div>
           {renderRows(
             hersByCol,
@@ -206,12 +206,8 @@ const IncomeBlock: FC = () => {
         </div>
       </div>
 
-      <div className="tw:flex">
-        <div
-          className={`${sidebarBase} tw:bg-[#00E5FF] tw:border-[#00E5FF] tw:text-[#0d0a14]`}
-        >
-          Mine
-        </div>
+      <div className="tw:flex tw:border tw:border-blue tw:rounded-l">
+        <div className={`${sidebarBase} tw:border-blue tw:text-blue`}>Mine</div>
         <div>
           {renderRows(
             mineByCol,
@@ -225,7 +221,7 @@ const IncomeBlock: FC = () => {
           )}
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 

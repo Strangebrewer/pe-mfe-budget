@@ -1,11 +1,8 @@
-import { ActionButton } from '@bka-stuff/pe-mfe-utils';
 import { useBillMonthStore } from '../../state/useBillMonth';
-import { format, subMonths, addMonths } from 'date-fns';
-import { useTransferStaleStore } from '../../state/useTransferStale';
+import { format, subMonths } from 'date-fns';
 
 const BillRowHeader = () => {
-  const { month, year, setBillMonth } = useBillMonthStore();
-  const { markTransferStale } = useTransferStaleStore();
+  const { month, year } = useBillMonthStore();
 
   function getDisplayMonth(ago?: 1 | 2) {
     const base = new Date(year, month - 1);
@@ -13,40 +10,17 @@ const BillRowHeader = () => {
     return format(date, 'MMM');
   }
 
-  function moveDisplayWindow(sub: boolean = false) {
-    const currentDisplayDate = new Date(year, month - 1);
-    let newDate = addMonths(currentDisplayDate, 1);
-    if (sub) newDate = subMonths(currentDisplayDate, 1);
-    setBillMonth(newDate);
-    markTransferStale();
-  }
-
   return (
-    <div className="tw:w-[542px] tw:flex tw:bg-surface tw:text-primary tw:py-[2px]">
-      <div className="tw:w-[300px] tw:pl-[4px]">Name</div>
-
-      <div className="tw:w-[80px] tw:text-center tw:relative">
-        <span className="tw:absolute tw:left-0">
-          <ActionButton
-            color="blue"
-            onClick={() => moveDisplayWindow(true)}
-            iconClass="fas fa-arrow-left"
-          />
-        </span>
+    <div className="tw:w-[542px] tw:ml-[48px] tw:flex tw:bg-surface tw:text-primary tw:py-[2px]">
+      <div className="tw:w-[300px] tw:pl-[4px] tw:text-muted">Name</div>
+      <div className="tw:w-[80px] tw:text-center tw:text-muted">
         {getDisplayMonth(2)}
       </div>
-
-      <div className="tw:w-[80px] tw:text-center">{getDisplayMonth(1)}</div>
-
-      <div className="tw:w-[80px] tw:text-center tw:relative">
+      <div className="tw:w-[80px] tw:text-center tw:text-muted">
+        {getDisplayMonth(1)}
+      </div>
+      <div className="tw:w-[80px] tw:text-center tw:text-muted">
         {getDisplayMonth()}
-        <span className="tw:absolute tw:right-0">
-          <ActionButton
-            color="blue"
-            onClick={() => moveDisplayWindow()}
-            iconClass="fas fa-arrow-right"
-          />
-        </span>
       </div>
     </div>
   );

@@ -1,5 +1,9 @@
 import { FC, useEffect, useRef, useState } from 'react';
-import { useCreateTransaction, useDeleteTransaction, useUpdateTransaction } from '../../hooks/transactionHooks';
+import {
+  useCreateTransaction,
+  useDeleteTransaction,
+  useUpdateTransaction,
+} from '../../hooks/transactionHooks';
 import { toDisplayAmount, toStoredAmount } from '../../utils/billUtils';
 
 type Props = {
@@ -72,10 +76,16 @@ const CategoryTransactionRow: FC<Props> = ({
     const storedAmount = toStoredAmount(trimmedAmount);
 
     if (transaction) {
-      const originalAmount = toStoredAmount(toDisplayAmount(transaction.amount));
+      const originalAmount = toStoredAmount(
+        toDisplayAmount(transaction.amount),
+      );
       const originalDesc = transaction.description ?? '';
       if (storedAmount !== originalAmount || trimmedDesc !== originalDesc) {
-        updateTransaction({ ...transaction, description: trimmedDesc, amount: storedAmount });
+        updateTransaction({
+          ...transaction,
+          description: trimmedDesc,
+          amount: storedAmount,
+        });
       }
       if (fromEnter) onEnterAmount();
     } else {
@@ -105,7 +115,8 @@ const CategoryTransactionRow: FC<Props> = ({
       return;
     }
 
-    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key))
+      return;
 
     e.preventDefault();
 
@@ -163,16 +174,16 @@ const CategoryTransactionRow: FC<Props> = ({
     <div className="tw:flex">
       <input
         ref={handleDescRef}
-        className="tw:w-[120px] tw:border tw:pl-[4px] tw:text-sm tw:bg-white tw:text-[#1a0f2e]"
+        className="tw:w-[100px] tw:border tw:border-cellBorder tw:pl-[4px] tw:text-sm tw:bg-[var(--baseBg)] tw:text-primary"
         value={desc}
-        onChange={e => setDesc(e.target.value)}
+        onChange={(e) => setDesc(e.target.value)}
         onKeyDown={handleDescKeyDown}
       />
       <input
         ref={amountInputRef}
-        className={`tw:w-[60px] tw:border tw:pr-[4px] tw:text-right tw:text-sm tw:bg-white tw:text-[#1a0f2e]${amountError ? ' tw:outline tw:outline-2 tw:outline-red-500' : ''}`}
+        className={`tw:w-[50px] tw:border tw:border-cellBorder tw:pr-[4px] tw:text-right tw:text-sm tw:bg-[var(--baseBg)] tw:text-primary${amountError ? ' tw:outline tw:outline-2 tw:outline-red' : ''}`}
         value={amount}
-        onChange={e => {
+        onChange={(e) => {
           setAmount(e.target.value);
           if (amountError) setAmountError(false);
         }}

@@ -16,16 +16,26 @@ type Props = {
 };
 
 const CategoryMonthColumn: FC<Props> = ({
-  month, transactions, categoryId, owner, monthLabel,
-  registerDescRef, focusDesc, onUp, onLeft, onRight,
+  month,
+  transactions,
+  categoryId,
+  owner,
+  monthLabel,
+  registerDescRef,
+  focusDesc,
+  onUp,
+  onLeft,
+  onRight,
 }) => {
   const total = transactions.reduce((sum, t) => sum + t.amount, 0);
   const newRowIdx = transactions.length;
 
   return (
-    <div className="tw:w-[180px] tw:bg-white tw:text-[#1a0f2e]">
-      <div className="tw:flex tw:border-b tw:border-[#1a0f2e] tw:pb-[2px] tw:mb-[2px]">
-        <div className="tw:w-[120px] tw:pl-[12px] tw:font-semibold tw:text-sm">{monthLabel}</div>
+    <div className="tw:w-[150px] tw:text-primary">
+      <div className="tw:flex tw:border-b tw:border-purpleBorder tw:pb-[2px] tw:mb-[2px]">
+        <div className="tw:w-[120px] tw:pl-[12px] tw:font-semibold tw:text-sm">
+          {monthLabel}
+        </div>
         <div className="tw:w-[60px] tw:pr-[4px] tw:text-right tw:font-semibold tw:text-sm">
           {total ? toDisplayAmount(total) : ''}
         </div>
@@ -37,7 +47,7 @@ const CategoryMonthColumn: FC<Props> = ({
           categoryId={categoryId}
           owner={owner}
           month={month}
-          descRef={el => registerDescRef(rowIdx, el)}
+          descRef={(el) => registerDescRef(rowIdx, el)}
           onEnterAmount={() => focusDesc(rowIdx + 1)}
           onUp={() => onUp(rowIdx)}
           onLeft={() => onLeft(rowIdx)}
@@ -49,7 +59,7 @@ const CategoryMonthColumn: FC<Props> = ({
         categoryId={categoryId}
         owner={owner}
         month={month}
-        descRef={el => registerDescRef(newRowIdx, el)}
+        descRef={(el) => registerDescRef(newRowIdx, el)}
         onEnterAmount={() => focusDesc(newRowIdx + 1)}
         onUp={() => onUp(newRowIdx)}
         onLeft={() => onLeft(newRowIdx)}

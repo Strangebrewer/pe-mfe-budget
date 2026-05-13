@@ -29,6 +29,35 @@ export const useCreateBill = () => {
   });
 };
 
+export const useUpdateBill = () => {
+  const queryClient = useQueryClient();
+  const { markTransferStale } = useTransferStaleStore();
+  return useMutation({
+    mutationFn: async (bill: any) => {
+      const response = await billApi.update(bill);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['get-bills'] });
+      markTransferStale();
+    },
+  });
+};
+
+export const useDeleteBill = () => {
+  const queryClient = useQueryClient();
+  const { markTransferStale } = useTransferStaleStore();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      await billApi.delete(id);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['get-bills'] });
+      markTransferStale();
+    },
+  });
+};
+
 export const usePayBill = () => {
   const queryClient = useQueryClient();
   const { markTransferStale } = useTransferStaleStore();
