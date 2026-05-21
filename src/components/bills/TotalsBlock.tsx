@@ -58,7 +58,7 @@ const TotalsBlock: FC<Props> = ({
         <p className="tw:m-auto">Totals</p>
       </div>
       <div className="tw:grow">
-        <div className="tw:flex tw:bg-greenAlpha">
+        <div className="tw:flex tw:bg-greenBorder">
           <div className={nameCell}>Total Income</div>
           {[0, 1, 2].map((colIdx) => (
             <div key={colIdx} className={valueCell}>
@@ -66,7 +66,7 @@ const TotalsBlock: FC<Props> = ({
             </div>
           ))}
         </div>
-        <div className="tw:flex tw:bg-redAlpha">
+        <div className="tw:flex tw:bg-redBorder">
           <div className={nameCell}>Total Expenses</div>
           {[0, 1, 2].map((colIdx) => (
             <div key={colIdx} className={valueCell}>
@@ -74,7 +74,7 @@ const TotalsBlock: FC<Props> = ({
             </div>
           ))}
         </div>
-        <div className="tw:flex tw:bg-greenAlpha">
+        <div className="tw:flex tw:bg-greenBorder">
           <div className={nameCell}>Total Leftover</div>
           {[0, 1, 2].map((colIdx) => {
             const leftover = getIncomeTotal(colIdx) - getExpensesTotal(colIdx);
