@@ -12,7 +12,7 @@ type Props = {
 const NewTransactionWidget = ({ categories }: Props) => {
   const [amount, setAmount] = useState('');
   const [categoryId, setCategoryId] = useState('');
-  const [owner, setOwner] = useState<'mine' | 'hers'>('mine');
+  const [owner, setOwner] = useState<'mine' | 'theirs'>('mine');
   const [sourceId, setSourceId] = useState('');
   const [month, setMonth] = useState(() =>
     new Date().toISOString().slice(0, 7),
@@ -101,7 +101,7 @@ const NewTransactionWidget = ({ categories }: Props) => {
                   key={key}
                   type="button"
                   onClick={() => {
-                    setOwner(key as 'mine' | 'hers');
+                    setOwner(key as 'mine' | 'theirs');
                     setSourceId('');
                   }}
                   className={`tw:border tw:border-purple tw:px-2 tw:py-[1px] tw:font-bold tw:text-sm tw:cursor-pointer tw:transition-colors ${i === 0 ? 'tw:rounded-l' : 'tw:rounded-r'} ${owner === key ? 'tw:bg-purple tw:text-bg' : 'tw:bg-transparent tw:text-purple'}`}

@@ -1,14 +1,14 @@
 import { FC } from 'react';
 import { SHARED_CATEGORY_NAMES, CategoryName } from '../../config';
 
-const containerStyles: Record<'mine' | 'hers', string> = {
+const containerStyles: Record<'mine' | 'theirs', string> = {
   mine: 'tw:flex tw:border tw:border-blue tw:rounded-l tw:mb-[12px]',
-  hers: 'tw:flex tw:border tw:border-red tw:rounded-l tw:mb-[12px]',
+  theirs: 'tw:flex tw:border tw:border-red tw:rounded-l tw:mb-[12px]',
 };
 
-const sidebarStyles: Record<'mine' | 'hers', string> = {
+const sidebarStyles: Record<'mine' | 'theirs', string> = {
   mine: 'tw:w-[60px] tw:flex tw:text-blue tw:border-r tw:border-blue',
-  hers: 'tw:w-[60px] tw:flex tw:text-red tw:border-r tw:border-red',
+  theirs: 'tw:w-[60px] tw:flex tw:text-red tw:border-r tw:border-red',
 };
 import BillRow from './BillRow';
 import CategoryRow from './CategoryRow';
@@ -16,7 +16,7 @@ import IncomeRow from './IncomeRow';
 import TotalRow from './TotalRow';
 
 type OwnerSectionProps = {
-  owner: 'mine' | 'hers';
+  owner: 'mine' | 'theirs';
   bills: any[];
   categoryTransactions: Record<CategoryName, any[]>;
   income: any[];
@@ -55,7 +55,7 @@ const OwnerSection: FC<OwnerSectionProps> = ({
   return (
     <div className={containerStyles[owner]}>
       <div className={sidebarStyles[owner]}>
-        <p className="tw:m-auto">{owner === 'mine' ? 'Mine' : 'Hers'}</p>
+        <p className="tw:m-auto">{owner === 'mine' ? 'Mine' : 'Theirs'}</p>
       </div>
       <div className="tw:grow">
         {bills.map((bill: any, i: number) => (

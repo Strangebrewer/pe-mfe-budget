@@ -10,7 +10,7 @@ import { useGetCategories } from '../hooks/categoryHooks';
 import { useTransferStaleStore } from '../state/useTransferStale';
 import { CategoryName, SHARED_CATEGORY_NAMES } from '../config';
 import IncomeBlock from '../components/bills/IncomeBlock';
-import { ActionButton, Card } from '@bka-stuff/pe-mfe-utils';
+import { ActionButton, Card, useUserStore } from '@bka-stuff/pe-mfe-utils';
 import NewTransactionWidget from '../components/bills/NewTransactionWidget';
 import TotalsBlock from '../components/bills/TotalsBlock';
 import MonthNav from '../components/MonthNav';
@@ -19,6 +19,7 @@ const TRANSACTION_COL_COUNT = 3;
 
 const Bills: FC = () => {
   const { billMonth, month, year } = useBillMonthStore();
+  const { user } = useUserStore();
   const cellRefs = useRef<Array<Array<HTMLInputElement | null>>>([]);
   const { data: bills } = useGetBills(billMonth);
   const { data: categories } = useGetCategories();
@@ -44,15 +45,15 @@ const Bills: FC = () => {
   const splitIncome = useMemo(
     () => ({
       mine: income?.filter((t: any) => t.owner === 'mine') ?? [],
-      hers: income?.filter((t: any) => t.owner === 'hers') ?? [],
+      theirs: income?.filter((t: any) => t.owner === 'theirs') ?? [],
     }),
     [income],
   );
 
   const sharedTransactions = useMemo(() => {
-    const result: Record<'mine' | 'hers', Record<CategoryName, any[]>> = {
+    const result: Record<'mine' | 'theirs', Record<CategoryName, any[]>> = {
       mine: { Food: [], Gas: [], Other: [] },
-      hers: { Food: [], Gas: [], Other: [] },
+      theirs: { Food: [], Gas: [], Other: [] },
     };
     if (!transactions || !categories) return result;
 
@@ -61,8 +62,8 @@ const Bills: FC = () => {
       result.mine[name] = transactions.filter(
         (t: any) => t.owner === 'mine' && t.categoryId === catId,
       );
-      result.hers[name] = transactions.filter(
-        (t: any) => t.owner === 'hers' && t.categoryId === catId,
+      result.theirs[name] = transactions.filter(
+        (t: any) => t.owner === 'theirs' && t.categoryId === catId,
       );
     }
     return result;
@@ -106,7 +107,7 @@ const Bills: FC = () => {
     }
   }
 
-  const hersBills = bills?.filter((b: any) => b.owner === 'hers') ?? [];
+  const theirsBills = bills?.filter((b: any) => b.owner === 'theirs') ?? [];
   const mineBills = bills?.filter((b: any) => b.owner === 'mine') ?? [];
 
   return (
@@ -114,6 +115,17 @@ const Bills: FC = () => {
       <h2 className="tw:my-4 tw:text-3xl tw:font-bold tw:text-center">
         Monthly Bills at a Glance
       </h2>
+
+      {!user?.isDemo ? (
+        <div className="tw:w-[600px] tw:m-auto tw:mb-[24px]">
+          <p>
+            A budgeting app designed to balance deficits and surplus between two
+            people. Takes all income and shared expenses for each month and
+            calculates transfers to equitably distribute surplus and balance
+            deficit load.
+          </p>
+        </div>
+      ) : null}
 
       <MonthNav onNavigate={markTransferStale} />
 
@@ -136,10 +148,10 @@ const Bills: FC = () => {
             <BillRowHeader />
 
             <OwnerSection
-              owner="hers"
-              bills={hersBills}
-              categoryTransactions={sharedTransactions.hers}
-              income={splitIncome.hers}
+              owner="theirs"
+              bills={theirsBills}
+              categoryTransactions={sharedTransactions.theirs}
+              income={splitIncome.theirs}
               month={month}
               year={year}
               rowOffset={0}
@@ -157,7 +169,7 @@ const Bills: FC = () => {
               income={splitIncome.mine}
               month={month}
               year={year}
-              rowOffset={hersBills.length}
+              rowOffset={theirsBills.length}
               registerRef={registerRef}
               onUp={focusUp}
               onDown={focusDown}

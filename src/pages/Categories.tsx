@@ -40,7 +40,7 @@ const Categories: FC = () => {
     return result;
   }, [transactions, categories, owner]);
 
-  const ownerLabel = owner === 'mine' ? 'Mine' : 'Hers';
+  const ownerLabel = owner === 'mine' ? 'Mine' : 'Theirs';
 
   return (
     <div className="tw:pb-8">

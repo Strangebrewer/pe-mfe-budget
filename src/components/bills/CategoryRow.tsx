@@ -4,7 +4,7 @@ import { CategoryName } from "../../config";
 
 type CategoryRowProps = {
   transactions: any[];
-  owner: 'hers' | 'mine';
+  owner: 'theirs' | 'mine';
   title: CategoryName;
   month: number;
   year: number;

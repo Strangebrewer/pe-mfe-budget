@@ -24,7 +24,7 @@ const IncomeBlock: FC = () => {
   }
 
   function getOwnerColTransactions(
-    owner: 'mine' | 'hers',
+    owner: 'mine' | 'theirs',
     colIdx: number,
   ): any[] {
     return transactions
@@ -32,17 +32,17 @@ const IncomeBlock: FC = () => {
       .sort((a: any, b: any) => (a.id < b.id ? -1 : 1));
   }
 
-  const hersByCol = [0, 1, 2].map((colIdx) =>
-    getOwnerColTransactions('hers', colIdx),
+  const theirsByCol = [0, 1, 2].map((colIdx) =>
+    getOwnerColTransactions('theirs', colIdx),
   );
   const mineByCol = [0, 1, 2].map((colIdx) =>
     getOwnerColTransactions('mine', colIdx),
   );
 
-  const maxHersRows = Math.max(0, ...hersByCol.map((t) => t.length)) + 1;
+  const maxTheirsRows = Math.max(0, ...theirsByCol.map((t) => t.length)) + 1;
   const maxMineRows = Math.max(0, ...mineByCol.map((t) => t.length)) + 1;
 
-  const hersRefs = useRef<(HTMLInputElement | null)[][]>([]);
+  const theirsRefs = useRef<(HTMLInputElement | null)[][]>([]);
   const mineRefs = useRef<(HTMLInputElement | null)[][]>([]);
 
   function registerRef(
@@ -103,7 +103,7 @@ const IncomeBlock: FC = () => {
 
   function renderRows(
     byCol: any[][],
-    owner: 'mine' | 'hers',
+    owner: 'mine' | 'theirs',
     refs: React.MutableRefObject<(HTMLInputElement | null)[][]>,
     maxRows: number,
     onBoundaryDown?: (colIdx: number) => void,
@@ -165,14 +165,14 @@ const IncomeBlock: FC = () => {
 
       <div className="tw:flex tw:bg-surface tw:text-primary">
         <div className="tw:w-[80px] tw:text-sm tw:pl-[4px] tw:text-red">
-          Her Total
+          Their Total
         </div>
         {[0, 1, 2].map((colIdx) => (
           <div
             key={colIdx}
             className="tw:w-[80px] tw:border tw:border-cellBorder tw:text-right tw:pr-[4px] tw:text-sm"
           >
-            {getTotal(hersByCol, colIdx)}
+            {getTotal(theirsByCol, colIdx)}
           </div>
         ))}
       </div>
@@ -192,13 +192,13 @@ const IncomeBlock: FC = () => {
       </div>
 
       <div className="tw:flex tw:border tw:border-red tw:rounded-l tw:mb-[12px]">
-        <div className={`${sidebarBase} tw:border-red tw:text-red`}>Hers</div>
+        <div className={`${sidebarBase} tw:border-red tw:text-red`}>Theirs</div>
         <div>
           {renderRows(
-            hersByCol,
-            'hers',
-            hersRefs,
-            maxHersRows,
+            theirsByCol,
+            'theirs',
+            theirsRefs,
+            maxTheirsRows,
             (colIdx) => mineRefs.current[0]?.[colIdx]?.focus(),
             undefined,
             () => mineRefs.current[0]?.[0]?.focus(),
@@ -215,9 +215,9 @@ const IncomeBlock: FC = () => {
             mineRefs,
             maxMineRows,
             undefined,
-            (colIdx) => hersRefs.current[maxHersRows - 1]?.[colIdx]?.focus(),
+            (colIdx) => theirsRefs.current[maxTheirsRows - 1]?.[colIdx]?.focus(),
             undefined,
-            () => hersRefs.current[maxHersRows - 1]?.[2]?.focus(),
+            () => theirsRefs.current[maxTheirsRows - 1]?.[2]?.focus(),
           )}
         </div>
       </div>

@@ -8,7 +8,7 @@ import { toDisplayAmount, toStoredAmount } from '../../utils/billUtils';
 
 type Props = {
   transaction?: any;
-  owner: 'mine' | 'hers';
+  owner: 'mine' | 'theirs';
   month: string;
   amountRef: (el: HTMLInputElement | null) => void;
   onUp: () => void;

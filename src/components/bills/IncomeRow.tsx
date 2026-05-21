@@ -3,7 +3,7 @@ import { getBillMonthForColumn, sumByMonth, toDisplayAmount } from "../../utils/
 
 type IncomeRowProps = {
   transactions: any[];
-  owner: 'hers' | 'mine';
+  owner: 'theirs' | 'mine';
   month: number;
   year: number;
 }

@@ -38,8 +38,8 @@ const TransferRow: FC<TransferRowProps> = ({
   function getDirection(transfer: number | null): string {
     if (transfer === null || transfer === 0) return '';
     return transfer > 0
-      ? `${OWNERS.mine} → ${OWNERS.hers}`
-      : `${OWNERS.hers} → ${OWNERS.mine}`;
+      ? `${OWNERS.mine} → ${OWNERS.theirs}`
+      : `${OWNERS.theirs} → ${OWNERS.mine}`;
   }
 
   function handleCalculateTransfer() {
@@ -47,17 +47,17 @@ const TransferRow: FC<TransferRowProps> = ({
       const bm = getBillMonthForColumn(month, year, colIndex);
 
       const mineIncome = sumByMonth(splitIncome.mine, bm);
-      const hersIncome = sumByMonth(splitIncome.hers, bm);
+      const theirsIncome = sumByMonth(splitIncome.theirs, bm);
 
       const mineBills = (bills ?? []).filter((b: any) => b.owner === 'mine');
-      const hersBills = (bills ?? []).filter((b: any) => b.owner === 'hers');
+      const theirsBills = (bills ?? []).filter((b: any) => b.owner === 'theirs');
 
       const mineBillTotal = mineBills
         .flatMap((b: any) => b.transactions ?? [])
         .filter((t: any) => t.month === bm)
         .reduce((sum: number, t: any) => sum + t.amount, 0);
 
-      const hersBillTotal = hersBills
+      const theirsBillTotal = theirsBills
         .flatMap((b: any) => b.transactions ?? [])
         .filter((t: any) => t.month === bm)
         .reduce((sum: number, t: any) => sum + t.amount, 0);
@@ -67,16 +67,16 @@ const TransferRow: FC<TransferRowProps> = ({
         bm,
       );
 
-      const hersCategoryTotal = sumByMonth(
-        SHARED_CATEGORY_NAMES.flatMap((name) => sharedTransactions.hers[name]),
+      const theirsCategoryTotal = sumByMonth(
+        SHARED_CATEGORY_NAMES.flatMap((name) => sharedTransactions.theirs[name]),
         bm,
       );
 
       return calculateTransfer(
         mineIncome,
-        hersIncome,
+        theirsIncome,
         mineBillTotal + mineCategoryTotal,
-        hersBillTotal + hersCategoryTotal,
+        theirsBillTotal + theirsCategoryTotal,
       );
     });
     setTransfers(result);
