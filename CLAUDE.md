@@ -10,10 +10,10 @@ The budget MFE. Tracks monthly bills, shared category spending (Food, Gas, Other
 
 ### Owners
 Two fixed owners defined in `src/config.ts`:
-- `mine` → display name "K"
-- `hers` → display name "C"
+- `mine` → display name "Me"
+- `hers` → display name "Her"
 
-The sidebar labels on Bills.tsx use "Mine" / "Hers" (capitalized), not the config names. The config names are used only in the transfer direction label (e.g. "K → C").
+The sidebar labels on Bills.tsx use "Mine" / "Hers" (capitalized), not the config names. The config names are used in the transfer direction label (e.g. "Me → Her") and the toggle in NewTransactionWidget.
 
 ### Accounts
 Checking, savings, and credit card accounts. Each has a `type` field: `"asset"` or `"debt"`. Accounts don't own bills, but bills can have a default source account ID.
@@ -156,8 +156,8 @@ All editable grids implement arrow-key navigation that skips read-only cells. Th
 ### IncomeBlock layout
 Grid with a fixed label column (80px) and 3 month amount columns (100px each):
 - Month label row (read-only)
-- C - Total row (read-only, sum of Hers income per month)
-- K - Total row (read-only, sum of Mine income per month)
+- Her Total row (read-only, sum of Hers income per month)
+- My Total row (read-only, sum of Mine income per month)
 - Hers section: colored sidebar label spanning full section height + editable amount rows
 - Mine section: same structure
 

@@ -165,7 +165,7 @@ const IncomeBlock: FC = () => {
 
       <div className="tw:flex tw:bg-surface tw:text-primary">
         <div className="tw:w-[80px] tw:text-sm tw:pl-[4px] tw:text-red">
-          C - Total
+          Her Total
         </div>
         {[0, 1, 2].map((colIdx) => (
           <div
@@ -179,7 +179,7 @@ const IncomeBlock: FC = () => {
 
       <div className="tw:flex tw:bg-surface tw:text-primary tw:mb-[12px]">
         <div className="tw:w-[80px] tw:text-sm tw:pl-[4px] tw:text-blue">
-          K - Total
+          My Total
         </div>
         {[0, 1, 2].map((colIdx) => (
           <div
