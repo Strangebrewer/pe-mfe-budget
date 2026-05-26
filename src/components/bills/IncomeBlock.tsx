@@ -4,12 +4,18 @@ import { useBillMonthStore } from '../../state/useBillMonth';
 import { useGetTransactions } from '../../hooks/transactionHooks';
 import { getBillMonthForColumn, toDisplayAmount } from '../../utils/billUtils';
 import IncomeAmountCell from './IncomeAmountCell';
+import { Card } from '@bka-stuff/pe-mfe-utils';
 
 const IncomeBlock: FC = () => {
   const { billMonth, month, year } = useBillMonthStore();
-  const { data: transactions = [] } = useGetTransactions({ month: billMonth, income: true });
+  const { data: transactions = [] } = useGetTransactions({
+    month: billMonth,
+    income: true,
+  });
 
-  const cols = [0, 1, 2].map(colIdx => getBillMonthForColumn(month, year, colIdx));
+  const cols = [0, 1, 2].map((colIdx) =>
+    getBillMonthForColumn(month, year, colIdx),
+  );
 
   function getMonthLabel(colIdx: number): string {
     const base = new Date(year, month - 1);
@@ -17,19 +23,26 @@ const IncomeBlock: FC = () => {
     return format(date, 'MMM');
   }
 
-  function getOwnerColTransactions(owner: 'mine' | 'hers', colIdx: number): any[] {
+  function getOwnerColTransactions(
+    owner: 'mine' | 'theirs',
+    colIdx: number,
+  ): any[] {
     return transactions
       .filter((t: any) => t.month === cols[colIdx] && t.owner === owner)
-      .sort((a: any, b: any) => a.id < b.id ? -1 : 1);
+      .sort((a: any, b: any) => (a.id < b.id ? -1 : 1));
   }
 
-  const hersByCol = [0, 1, 2].map(colIdx => getOwnerColTransactions('hers', colIdx));
-  const mineByCol = [0, 1, 2].map(colIdx => getOwnerColTransactions('mine', colIdx));
+  const theirsByCol = [0, 1, 2].map((colIdx) =>
+    getOwnerColTransactions('theirs', colIdx),
+  );
+  const mineByCol = [0, 1, 2].map((colIdx) =>
+    getOwnerColTransactions('mine', colIdx),
+  );
 
-  const maxHersRows = Math.max(0, ...hersByCol.map(t => t.length)) + 1;
-  const maxMineRows = Math.max(0, ...mineByCol.map(t => t.length)) + 1;
+  const maxTheirsRows = Math.max(0, ...theirsByCol.map((t) => t.length)) + 1;
+  const maxMineRows = Math.max(0, ...mineByCol.map((t) => t.length)) + 1;
 
-  const hersRefs = useRef<(HTMLInputElement | null)[][]>([]);
+  const theirsRefs = useRef<(HTMLInputElement | null)[][]>([]);
   const mineRefs = useRef<(HTMLInputElement | null)[][]>([]);
 
   function registerRef(
@@ -90,7 +103,7 @@ const IncomeBlock: FC = () => {
 
   function renderRows(
     byCol: any[][],
-    owner: 'mine' | 'hers',
+    owner: 'mine' | 'theirs',
     refs: React.MutableRefObject<(HTMLInputElement | null)[][]>,
     maxRows: number,
     onBoundaryDown?: (colIdx: number) => void,
@@ -99,77 +112,116 @@ const IncomeBlock: FC = () => {
     onBoundaryLeft?: () => void,
   ) {
     return Array.from({ length: maxRows }, (_, rowIdx) => (
-      <div key={rowIdx} className="tw:flex tw:bg-white">
-        {[0, 1, 2].map(colIdx => (
+      <div key={rowIdx} className="tw:flex">
+        {[0, 1, 2].map((colIdx) => (
           <IncomeAmountCell
             key={colIdx}
             transaction={byCol[colIdx][rowIdx]}
             owner={owner}
             month={cols[colIdx]}
             amountRef={registerRef(refs, rowIdx, colIdx)}
-            onUp={() => rowIdx > 0 ? handleUp(refs, rowIdx, colIdx) : onBoundaryUp?.(colIdx)}
-            onDown={() => rowIdx < maxRows - 1 ? handleDown(refs, rowIdx, colIdx) : onBoundaryDown?.(colIdx)}
-            onLeft={() => rowIdx === 0 && colIdx === 0 ? onBoundaryLeft?.() : handleLeft(refs, rowIdx, colIdx)}
-            onRight={() => rowIdx === maxRows - 1 && colIdx === 2 ? onBoundaryRight?.() : handleRight(refs, rowIdx, colIdx)}
+            onUp={() =>
+              rowIdx > 0
+                ? handleUp(refs, rowIdx, colIdx)
+                : onBoundaryUp?.(colIdx)
+            }
+            onDown={() =>
+              rowIdx < maxRows - 1
+                ? handleDown(refs, rowIdx, colIdx)
+                : onBoundaryDown?.(colIdx)
+            }
+            onLeft={() =>
+              rowIdx === 0 && colIdx === 0
+                ? onBoundaryLeft?.()
+                : handleLeft(refs, rowIdx, colIdx)
+            }
+            onRight={() =>
+              rowIdx === maxRows - 1 && colIdx === 2
+                ? onBoundaryRight?.()
+                : handleRight(refs, rowIdx, colIdx)
+            }
           />
         ))}
       </div>
     ));
   }
 
-  const sidebarBase = 'tw:w-[80px] tw:flex tw:items-center tw:justify-center tw:border tw:text-sm tw:font-semibold';
+  const sidebarBase =
+    'tw:w-[80px] tw:flex tw:items-center tw:justify-center tw:border-r tw:text-sm tw:font-semibold';
 
   return (
-    <div>
-      <h2 className='tw:text-center'>Income</h2>
+    <Card heading="Income">
       <div className="tw:flex">
         <div className="tw:w-[80px]" />
-        {[0, 1, 2].map(colIdx => (
-          <div key={colIdx} className="tw:w-[100px] tw:text-right tw:pr-[4px] tw:font-semibold tw:text-sm tw:text-[#c4b5fd]">
+        {[0, 1, 2].map((colIdx) => (
+          <div
+            key={colIdx}
+            className="tw:w-[80px] tw:text-right tw:pr-[4px] tw:font-semibold tw:text-sm tw:text-muted"
+          >
             {getMonthLabel(colIdx)}
           </div>
         ))}
       </div>
 
-      <div className="tw:flex tw:bg-white tw:text-[#1a0f2e]">
-        <div className="tw:w-[80px] tw:text-sm tw:pl-[4px]">C - Total</div>
-        {[0, 1, 2].map(colIdx => (
-          <div key={colIdx} className="tw:w-[100px] tw:border tw:text-right tw:pr-[4px] tw:text-sm">
-            {getTotal(hersByCol, colIdx)}
+      <div className="tw:flex tw:bg-surface tw:text-primary">
+        <div className="tw:w-[80px] tw:text-sm tw:pl-[4px] tw:text-red">
+          Their Total
+        </div>
+        {[0, 1, 2].map((colIdx) => (
+          <div
+            key={colIdx}
+            className="tw:w-[80px] tw:border tw:border-cellBorder tw:text-right tw:pr-[4px] tw:text-sm"
+          >
+            {getTotal(theirsByCol, colIdx)}
           </div>
         ))}
       </div>
 
-      <div className="tw:flex tw:bg-white tw:text-[#1a0f2e]">
-        <div className="tw:w-[80px] tw:text-sm tw:pl-[4px]">K - Total</div>
-        {[0, 1, 2].map(colIdx => (
-          <div key={colIdx} className="tw:w-[100px] tw:border tw:text-right tw:pr-[4px] tw:text-sm">
+      <div className="tw:flex tw:bg-surface tw:text-primary tw:mb-[12px]">
+        <div className="tw:w-[80px] tw:text-sm tw:pl-[4px] tw:text-blue">
+          My Total
+        </div>
+        {[0, 1, 2].map((colIdx) => (
+          <div
+            key={colIdx}
+            className="tw:w-[80px] tw:border tw:border-cellBorder tw:text-right tw:pr-[4px] tw:text-sm"
+          >
             {getTotal(mineByCol, colIdx)}
           </div>
         ))}
       </div>
 
-      <div className="tw:flex">
-        <div className={`${sidebarBase} tw:bg-[#e22c5a] tw:border-[#e22c5a] tw:text-[#f0e6ff]`}>Hers</div>
-        <div>{renderRows(
-          hersByCol, 'hers', hersRefs, maxHersRows,
-          colIdx => mineRefs.current[0]?.[colIdx]?.focus(),
-          undefined,
-          () => mineRefs.current[0]?.[0]?.focus(),
-        )}</div>
+      <div className="tw:flex tw:border tw:border-red tw:rounded-l tw:mb-[12px]">
+        <div className={`${sidebarBase} tw:border-red tw:text-red`}>Theirs</div>
+        <div>
+          {renderRows(
+            theirsByCol,
+            'theirs',
+            theirsRefs,
+            maxTheirsRows,
+            (colIdx) => mineRefs.current[0]?.[colIdx]?.focus(),
+            undefined,
+            () => mineRefs.current[0]?.[0]?.focus(),
+          )}
+        </div>
       </div>
 
-      <div className="tw:flex">
-        <div className={`${sidebarBase} tw:bg-[#00E5FF] tw:border-[#00E5FF] tw:text-[#0d0a14]`}>Mine</div>
-        <div>{renderRows(
-          mineByCol, 'mine', mineRefs, maxMineRows,
-          undefined,
-          colIdx => hersRefs.current[maxHersRows - 1]?.[colIdx]?.focus(),
-          undefined,
-          () => hersRefs.current[maxHersRows - 1]?.[2]?.focus(),
-        )}</div>
+      <div className="tw:flex tw:border tw:border-blue tw:rounded-l">
+        <div className={`${sidebarBase} tw:border-blue tw:text-blue`}>Mine</div>
+        <div>
+          {renderRows(
+            mineByCol,
+            'mine',
+            mineRefs,
+            maxMineRows,
+            undefined,
+            (colIdx) => theirsRefs.current[maxTheirsRows - 1]?.[colIdx]?.focus(),
+            undefined,
+            () => theirsRefs.current[maxTheirsRows - 1]?.[2]?.focus(),
+          )}
+        </div>
       </div>
-    </div>
+    </Card>
   );
 };
 

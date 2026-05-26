@@ -1,10 +1,14 @@
 import { FC, useEffect, useRef, useState } from 'react';
-import { useCreateTransaction, useDeleteTransaction, useUpdateTransaction } from '../../hooks/transactionHooks';
+import {
+  useCreateTransaction,
+  useDeleteTransaction,
+  useUpdateTransaction,
+} from '../../hooks/transactionHooks';
 import { toDisplayAmount, toStoredAmount } from '../../utils/billUtils';
 
 type Props = {
   transaction?: any;
-  owner: 'mine' | 'hers';
+  owner: 'mine' | 'theirs';
   month: string;
   amountRef: (el: HTMLInputElement | null) => void;
   onUp: () => void;
@@ -13,7 +17,16 @@ type Props = {
   onRight: () => void;
 };
 
-const IncomeAmountCell: FC<Props> = ({ transaction, owner, month, amountRef, onUp, onDown, onLeft, onRight }) => {
+const IncomeAmountCell: FC<Props> = ({
+  transaction,
+  owner,
+  month,
+  amountRef,
+  onUp,
+  onDown,
+  onLeft,
+  onRight,
+}) => {
   const [amount, setAmount] = useState(toDisplayAmount(transaction?.amount));
   const wasKeyHandled = useRef(false);
 
@@ -41,7 +54,13 @@ const IncomeAmountCell: FC<Props> = ({ transaction, owner, month, amountRef, onU
         updateTransaction({ ...transaction, amount: storedAmount });
       }
     } else {
-      createTransaction({ owner, month, amount: storedAmount, income: true, type: 'credit' });
+      createTransaction({
+        owner,
+        month,
+        amount: storedAmount,
+        income: true,
+        type: 'credit',
+      });
       setAmount('');
     }
   }
@@ -79,9 +98,9 @@ const IncomeAmountCell: FC<Props> = ({ transaction, owner, month, amountRef, onU
   return (
     <input
       ref={amountRef}
-      className="tw:w-[100px] tw:border tw:pr-[4px] tw:text-right tw:text-sm tw:bg-white tw:text-[#1a0f2e]"
+      className="tw:w-[80px] tw:border tw:border-cellBorder tw:pr-[4px] tw:text-right tw:text-sm tw:bg-transparent tw:text-primary tw:focus:outline-none tw:focus:bg-[#ffffff0a]"
       value={amount}
-      onChange={e => setAmount(e.target.value)}
+      onChange={(e) => setAmount(e.target.value)}
       onKeyDown={handleKeyDown}
       onBlur={handleBlur}
     />

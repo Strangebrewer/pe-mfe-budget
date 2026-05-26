@@ -11,7 +11,7 @@ type Props = {
 
 const emptyForm = {
   name: '',
-  owner: 'mine' as 'mine' | 'hers',
+  owner: 'mine' as 'mine' | 'theirs',
   sourceId: '',
   description: '',
 };
@@ -60,7 +60,7 @@ export default function AddBillModal({ onClose, isOpen }: Props) {
           <Select
             name="owner"
             value={form.owner}
-            onChange={e => setForm(f => ({ ...f, owner: e.target.value as 'mine' | 'hers' }))}
+            onChange={e => setForm(f => ({ ...f, owner: e.target.value as 'mine' | 'theirs' }))}
           >
             {Object.entries(OWNERS).map(([key, label]) => (
               <option key={key} value={key}>{label}</option>

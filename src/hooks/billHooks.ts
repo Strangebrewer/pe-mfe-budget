@@ -9,6 +9,7 @@ export const useGetBills = (month: string) => {
       const { data = [] } = await billApi.get({ month });
       return data;
     },
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
 };
 
@@ -28,6 +29,35 @@ export const useCreateBill = () => {
   });
 };
 
+export const useUpdateBill = () => {
+  const queryClient = useQueryClient();
+  const { markTransferStale } = useTransferStaleStore();
+  return useMutation({
+    mutationFn: async (bill: any) => {
+      const response = await billApi.update(bill);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['get-bills'] });
+      markTransferStale();
+    },
+  });
+};
+
+export const useDeleteBill = () => {
+  const queryClient = useQueryClient();
+  const { markTransferStale } = useTransferStaleStore();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      await billApi.delete(id);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['get-bills'] });
+      markTransferStale();
+    },
+  });
+};
+
 export const usePayBill = () => {
   const queryClient = useQueryClient();
   const { markTransferStale } = useTransferStaleStore();
@@ -37,9 +67,18 @@ export const usePayBill = () => {
       const response = await billApi.payBill(billId, rest);
       return response.data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['get-bills'] });
-      queryClient.invalidateQueries({ queryKey: ['get-transactions'] });
+    onSuccess: (newTxn, vars) => {
+      queryClient.setQueryData(
+        ['get-bills', vars.month],
+        (old: any[] | undefined) => {
+          if (!old) return old;
+          return old.map((bill) => {
+            return bill.id === vars.billId
+              ? { ...bill, transactions: [...bill.transactions, newTxn] }
+              : bill;
+          });
+        },
+      );
       markTransferStale();
     },
   });

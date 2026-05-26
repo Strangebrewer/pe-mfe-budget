@@ -30,12 +30,12 @@ export function sumByMonth(transactions: any[], billMonth: string): number {
 
 export function calculateTransfer(
   mineIncome: number,
-  hersIncome: number,
+  theirsIncome: number,
   mineExpenses: number,
-  hersExpenses: number,
+  theirsExpenses: number,
 ): number {
   const mineNet = mineIncome - mineExpenses;
-  const hersNet = hersIncome - hersExpenses;
-  const combined = mineNet + hersNet;
+  const theirsNet = theirsIncome - theirsExpenses;
+  const combined = mineNet + theirsNet;
   return mineNet - combined / 2;
 }

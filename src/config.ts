@@ -1,6 +1,6 @@
 export const OWNERS = {
-  mine: 'K',
-  hers: 'C',
+  mine: 'Me',
+  theirs: 'Them',
 };
 
 export const SHARED_CATEGORY_NAMES = ['Food', 'Gas', 'Other'] as const;

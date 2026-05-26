@@ -1,7 +1,7 @@
-import axios from "axios";
-import { createAuthClient } from "@bka-stuff/pe-mfe-utils";
+import axios from 'axios';
+import { createAuthClient } from '@bka-stuff/pe-mfe-utils';
 
-const BASE_URL = process.env.API_URL || "http://localhost:8082";
+const BASE_URL = process.env.API_URL || 'http://localhost:8082';
 const AUTH_URL = process.env.AUTH_URL || 'http://localhost:8080';
 
 export const axiosAuth = axios.create({ baseURL: BASE_URL });
@@ -13,6 +13,6 @@ createAuthClient({
   axiosAuth,
   onLogout: () => {
     // whatever the shell should do
-    console.log("Logged out");
+    console.log('Logged out');
   },
 }).attach();
