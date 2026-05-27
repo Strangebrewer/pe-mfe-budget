@@ -116,17 +116,6 @@ const Bills: FC = () => {
         Monthly Bills at a Glance
       </h2>
 
-      {!user?.isDemo ? (
-        <div className="tw:w-[600px] tw:m-auto tw:mb-[24px]">
-          <p>
-            A budgeting app designed to balance deficits and surplus between two
-            people. Takes all income and shared expenses for each month and
-            calculates transfers to equitably distribute surplus and balance
-            deficit load.
-          </p>
-        </div>
-      ) : null}
-
       <MonthNav onNavigate={markTransferStale} />
 
       <div className="tw:flex tw:justify-center tw:items-start tw:gap-[48px]">
