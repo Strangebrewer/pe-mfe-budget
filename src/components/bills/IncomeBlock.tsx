@@ -215,7 +215,8 @@ const IncomeBlock: FC = () => {
             mineRefs,
             maxMineRows,
             undefined,
-            (colIdx) => theirsRefs.current[maxTheirsRows - 1]?.[colIdx]?.focus(),
+            (colIdx) =>
+              theirsRefs.current[maxTheirsRows - 1]?.[colIdx]?.focus(),
             undefined,
             () => theirsRefs.current[maxTheirsRows - 1]?.[2]?.focus(),
           )}

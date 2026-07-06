@@ -1,4 +1,8 @@
-export function getBillMonthForColumn(month: number, year: number, colIndex: number): string {
+export function getBillMonthForColumn(
+  month: number,
+  year: number,
+  colIndex: number,
+): string {
   // colIndex 0 = 2 months ago, 1 = 1 month ago, 2 = current
   let m = month - (2 - colIndex);
   let y = year;
@@ -24,7 +28,7 @@ export function toStoredAmount(value: string): number {
 
 export function sumByMonth(transactions: any[], billMonth: string): number {
   return transactions
-    .filter(t => t.month === billMonth)
+    .filter((t) => t.month === billMonth)
     .reduce((sum, t) => sum + t.amount, 0);
 }
 

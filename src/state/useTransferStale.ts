@@ -4,7 +4,7 @@ type TransferStaleStore = {
   isTransferStale: boolean;
   markTransferStale: () => void;
   clearTransferStale: () => void;
-}
+};
 
 export const useTransferStaleStore = create<TransferStaleStore>((set) => ({
   isTransferStale: true,

@@ -1,4 +1,4 @@
-import "@bka-stuff/pe-mfe-utils/style.css";
+import '@bka-stuff/pe-mfe-utils/style.css';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 

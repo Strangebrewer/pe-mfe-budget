@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "jsx": "react-jsx",
-    "preserveSymlinks": false,
+    "preserveSymlinks": false
   },
   "ts-node": {
     "transpileOnly": true

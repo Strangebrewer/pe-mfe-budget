@@ -4,7 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
 import { createWebpackConfig, defaultShared } from '@bka-stuff/pe-mfe-utils';
-import { fileURLToPath } from "url";
+import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
 dotenv.config({ path: '.env.local' });
@@ -22,7 +22,7 @@ const config = {
     port: 3001,
   }),
 
-    plugins: [
+  plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),

@@ -1,4 +1,4 @@
-import BaseApi from "./baseApi";
+import BaseApi from './baseApi';
 
 class CategoryApi extends BaseApi {
   constructor() {

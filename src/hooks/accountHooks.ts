@@ -19,6 +19,7 @@ export const useCreateAccount = () => {
       const response = await accountApi.create(account);
       return response.data;
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['get-accounts'] }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ['get-accounts'] }),
   });
 };

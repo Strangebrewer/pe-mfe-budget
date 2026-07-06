@@ -5,7 +5,7 @@ export type BillMonthStore = {
   year: number;
   billMonth: string;
   setBillMonth: (date: Date) => void;
-}
+};
 
 function formatBillMonth(date: Date) {
   const year = date.getFullYear();
