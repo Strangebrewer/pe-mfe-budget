@@ -5,11 +5,19 @@ import Bills from './pages/Bills';
 import Categories from './pages/Categories';
 
 function Accounts() {
-  return <div><h1>Accounts</h1></div>;
+  return (
+    <div>
+      <h1>Accounts</h1>
+    </div>
+  );
 }
 
 function Transactions() {
-  return <div><h1>Transactions</h1></div>;
+  return (
+    <div>
+      <h1>Transactions</h1>
+    </div>
+  );
 }
 
 function NotFound() {
@@ -26,6 +34,6 @@ const App: React.FC = () => {
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
-}
+};
 
 export default App;

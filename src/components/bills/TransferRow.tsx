@@ -50,7 +50,9 @@ const TransferRow: FC<TransferRowProps> = ({
       const theirsIncome = sumByMonth(splitIncome.theirs, bm);
 
       const mineBills = (bills ?? []).filter((b: any) => b.owner === 'mine');
-      const theirsBills = (bills ?? []).filter((b: any) => b.owner === 'theirs');
+      const theirsBills = (bills ?? []).filter(
+        (b: any) => b.owner === 'theirs',
+      );
 
       const mineBillTotal = mineBills
         .flatMap((b: any) => b.transactions ?? [])
@@ -68,7 +70,9 @@ const TransferRow: FC<TransferRowProps> = ({
       );
 
       const theirsCategoryTotal = sumByMonth(
-        SHARED_CATEGORY_NAMES.flatMap((name) => sharedTransactions.theirs[name]),
+        SHARED_CATEGORY_NAMES.flatMap(
+          (name) => sharedTransactions.theirs[name],
+        ),
         bm,
       );
 

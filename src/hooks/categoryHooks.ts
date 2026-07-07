@@ -19,6 +19,7 @@ export const useCreateCategory = () => {
       const response = await categoryApi.create(category);
       return response.data;
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['get-categories'] }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ['get-categories'] }),
   });
 };
