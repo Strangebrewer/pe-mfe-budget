@@ -1,6 +1,6 @@
-import BaseApig from './baseApi';
+import BaseApi from './baseApi';
 
-class CategoryApi extends BaseApig {
+class CategoryApi extends BaseApi {
   constructor() {
     super('categories');
   }
