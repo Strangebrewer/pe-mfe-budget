@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import {
   Modal,
-  Label,
   Input,
   Select,
-  Button,
-  GhostButton,
+  InputGroup,
+  ModalButtons,
 } from '@bka-stuff/pe-mfe-utils';
 import { useCreateBill } from '../../hooks/billHooks';
 import { useGetAccounts } from '../../hooks/accountHooks';
@@ -28,8 +27,8 @@ export default function AddBillModal({ onClose, isOpen }: Props) {
   const { data: accounts = [] } = useGetAccounts();
   const { mutate: createBill, isPending } = useCreateBill();
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  function handleSubmit(e?: React.FormEvent) {
+    e?.preventDefault();
     if (!form.name || !form.sourceId) return;
 
     const payload: Record<string, any> = {
@@ -54,19 +53,19 @@ export default function AddBillModal({ onClose, isOpen }: Props) {
         className="tw:flex tw:flex-col tw:gap-4 tw:py-[32px] tw:px-[48px]"
       >
         <h1 className="tw:text-center tw:text-[24px]">New Bill</h1>
-        <div className="tw:flex tw:flex-col tw:gap-1">
-          <Label text="Name *" />
+
+        <InputGroup label="Name *">
           <Input
             name="name"
             type="text"
             value={form.name}
             onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+            required
             autofocus
           />
-        </div>
+        </InputGroup>
 
-        <div className="tw:flex tw:flex-col tw:gap-1">
-          <Label text="Owner *" />
+        <InputGroup label="Owner *">
           <Select
             name="owner"
             value={form.owner}
@@ -83,12 +82,9 @@ export default function AddBillModal({ onClose, isOpen }: Props) {
               </option>
             ))}
           </Select>
-        </div>
+        </InputGroup>
 
-        <div className="tw:flex tw:flex-col tw:gap-1">
-          <label className="tw:text-sm tw:font-medium tw:text-muted">
-            Account *
-          </label>
+        <InputGroup label="Account *">
           <Select
             name="sourceId"
             value={form.sourceId}
@@ -103,10 +99,9 @@ export default function AddBillModal({ onClose, isOpen }: Props) {
               </option>
             ))}
           </Select>
-        </div>
+        </InputGroup>
 
-        <div className="tw:flex tw:flex-col tw:gap-1">
-          <Label text="Description" />
+        <InputGroup label="Description">
           <Input
             type="text"
             name="description"
@@ -115,18 +110,14 @@ export default function AddBillModal({ onClose, isOpen }: Props) {
               setForm((f) => ({ ...f, description: e.target.value }))
             }
           />
-        </div>
+        </InputGroup>
 
-        <div className="tw:flex tw:justify-end tw:gap-2 tw:pt-2">
-          <GhostButton text="Cancel" color="red" onClick={closeModal} />
-          <Button
-            last
-            text={isPending ? 'Saving…' : 'Create'}
-            color="green"
-            onClick={handleSubmit}
-            disabled={isPending || !form.name || !form.sourceId}
-          />
-        </div>
+        <ModalButtons
+          onClose={closeModal}
+          onConfirm={handleSubmit}
+          confirmText={isPending ? 'Saving…' : 'Create'}
+          isDisabled={isPending || !form.name || !form.sourceId}
+        />
       </form>
     </Modal>
   );

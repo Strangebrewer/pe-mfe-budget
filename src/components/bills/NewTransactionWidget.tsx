@@ -1,4 +1,11 @@
-import { Button, Card, Input, Label, Select } from '@bka-stuff/pe-mfe-utils';
+import {
+  Button,
+  Card,
+  Input,
+  InputGroup,
+  Label,
+  Select,
+} from '@bka-stuff/pe-mfe-utils';
 import { useState } from 'react';
 import { OWNERS } from '../../config';
 import { useGetAccounts } from '../../hooks/accountHooks';
@@ -51,8 +58,7 @@ const NewTransactionWidget = ({ categories }: Props) => {
   return (
     <Card heading="New Transaction" size="lg">
       <form onSubmit={handleSave} className="tw:flex tw:flex-col tw:gap-1">
-        <div className="tw:flex tw:flex-col tw:gap-1">
-          <Label text="Amount" />
+        <InputGroup label="Amount">
           <Input
             key={focusKey}
             name="amount"
@@ -62,10 +68,9 @@ const NewTransactionWidget = ({ categories }: Props) => {
             full
             autofocus
           />
-        </div>
+        </InputGroup>
 
-        <div className="tw:flex tw:flex-col tw:gap-1">
-          <Label text="Description" />
+        <InputGroup label="Description">
           <Input
             name="description"
             type="text"
@@ -73,10 +78,9 @@ const NewTransactionWidget = ({ categories }: Props) => {
             onChange={(e) => setDescription(e.target.value)}
             full
           />
-        </div>
+        </InputGroup>
 
-        <div className="tw:flex tw:flex-col tw:gap-1">
-          <Label text="Category" />
+        <InputGroup label="Category">
           <Select
             name="category"
             value={categoryId}
@@ -90,7 +94,7 @@ const NewTransactionWidget = ({ categories }: Props) => {
               </option>
             ))}
           </Select>
-        </div>
+        </InputGroup>
 
         <div className="tw:flex tw:items-center tw:justify-evenly tw:py-[8px]">
           <div className="tw:flex tw:items-center">
@@ -121,8 +125,7 @@ const NewTransactionWidget = ({ categories }: Props) => {
           </div>
         </div>
 
-        <div className="tw:flex tw:flex-col tw:gap-1">
-          <Label text="Source" />
+        <InputGroup label="Source">
           <Select
             name="source"
             value={sourceId}
@@ -138,10 +141,9 @@ const NewTransactionWidget = ({ categories }: Props) => {
                 </option>
               ))}
           </Select>
-        </div>
+        </InputGroup>
 
-        <div className="tw:flex tw:flex-col tw:gap-1">
-          <Label text="Month" />
+        <InputGroup label="Month">
           <Input
             name="month"
             type="month"
@@ -149,7 +151,7 @@ const NewTransactionWidget = ({ categories }: Props) => {
             onChange={(e) => setMonth(e.target.value)}
             full
           />
-        </div>
+        </InputGroup>
 
         <div className="tw:flex tw:justify-end tw:pt-[8px]">
           <Button last text="Save" color="purple" type="submit" />
