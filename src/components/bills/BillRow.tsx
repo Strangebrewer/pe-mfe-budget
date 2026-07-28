@@ -55,6 +55,9 @@ const BillRow: FC<BillRowProps> = ({
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
 
+  // this useEffect (and the one for setValues below) is necessary because
+  //  'bill' is a prop and is an editable field. Without useEffect, it won't
+  //  update the UI after an edit.
   useEffect(() => {
     setNameValue(bill.name ?? '');
   }, [bill]);

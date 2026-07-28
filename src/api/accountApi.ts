@@ -1,6 +1,6 @@
-import BaseApi from './baseApi';
+import BaseApig from './baseApi';
 
-class AccountApi extends BaseApi {
+class AccountApi extends BaseApig {
   constructor() {
     super('accounts');
   }

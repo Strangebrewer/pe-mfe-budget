@@ -1,11 +1,10 @@
 import { FC, useState, useEffect } from 'react';
 import {
   Modal,
-  Label,
   Input,
   Select,
-  Button,
-  GhostButton,
+  InputGroup,
+  ModalButtons,
 } from '@bka-stuff/pe-mfe-utils';
 import { useUpdateBill } from '../../hooks/billHooks';
 import { useGetAccounts } from '../../hooks/accountHooks';
@@ -28,6 +27,7 @@ const EditBillModal: FC<Props> = ({ isOpen, onClose, bill }) => {
     name: bill.name ?? '',
   });
 
+  // This useEffect is necessary because bill name
   useEffect(() => {
     setForm({
       owner: bill.owner ?? 'mine',
@@ -35,10 +35,10 @@ const EditBillModal: FC<Props> = ({ isOpen, onClose, bill }) => {
       description: bill.description ?? '',
       name: bill.name ?? '',
     });
-  }, [bill]);
+  }, [bill, isOpen]);
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  function handleSubmit(e?: React.FormEvent) {
+    e?.preventDefault();
     updateBill({ ...bill, ...form }, { onSuccess: onClose });
   }
 
@@ -48,20 +48,18 @@ const EditBillModal: FC<Props> = ({ isOpen, onClose, bill }) => {
         onSubmit={handleSubmit}
         className="tw:flex tw:w-[460px] tw:flex-col tw:gap-4 tw:py-[32px] tw:px-[48px]"
       >
-        <h1 className="tw:text-center tw:text-[24px]">Edit Bill</h1>
+        <h1 className="tw:text-center tw:text-[24px]">Edit Billages</h1>
 
-        <div className="tw:flex tw:flex-col tw:gap-1">
-          <Label text="Name" />
+        <InputGroup label="Name">
           <Input
             type="text"
             name="name"
             value={form.name}
             onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
           />
-        </div>
+        </InputGroup>
 
-        <div className="tw:flex tw:flex-col tw:gap-1">
-          <Label text="Owner" />
+        <InputGroup label="Owner">
           <Select
             name="owner"
             value={form.owner}
@@ -73,10 +71,9 @@ const EditBillModal: FC<Props> = ({ isOpen, onClose, bill }) => {
               </option>
             ))}
           </Select>
-        </div>
+        </InputGroup>
 
-        <div className="tw:flex tw:flex-col tw:gap-1">
-          <Label text="Account" />
+        <InputGroup label="Account">
           <Select
             name="sourceId"
             value={form.sourceId}
@@ -93,10 +90,9 @@ const EditBillModal: FC<Props> = ({ isOpen, onClose, bill }) => {
                 </option>
               ))}
           </Select>
-        </div>
+        </InputGroup>
 
-        <div className="tw:flex tw:flex-col tw:gap-1">
-          <Label text="Description" />
+        <InputGroup label="Description">
           <Input
             type="text"
             name="description"
@@ -105,18 +101,14 @@ const EditBillModal: FC<Props> = ({ isOpen, onClose, bill }) => {
               setForm((f) => ({ ...f, description: e.target.value }))
             }
           />
-        </div>
+        </InputGroup>
 
-        <div className="tw:flex tw:justify-end tw:gap-2 tw:pt-2">
-          <GhostButton text="Cancel" color="red" onClick={onClose} />
-          <Button
-            last
-            text={isPending ? 'Saving…' : 'Save'}
-            color="green"
-            onClick={handleSubmit}
-            disabled={isPending}
-          />
-        </div>
+        <ModalButtons
+          onClose={onClose}
+          onConfirm={handleSubmit}
+          confirmText={isPending ? 'Saving…' : 'Save'}
+          isDisabled={isPending}
+        />
       </form>
     </Modal>
   );
